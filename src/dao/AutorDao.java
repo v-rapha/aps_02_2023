@@ -2,12 +2,33 @@ package dao;
 
 import model.Autor;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class AutorDao implements Dao<Autor> {
+  private final String INSERT = "INSERT INTO Authors (name, fname) VALUES (?, ?)";
 
   @Override
-  public boolean create(Autor o) {
+  public boolean create(Autor autor) {
+    Connection con = FabricaConexao.getConnection();
+    PreparedStatement st = null;
+
+    try {
+      st = con.prepareStatement(INSERT);
+      st.setString(1, autor.getNome());
+      st.setString(2, autor.getSobrenome());
+
+      if (st.executeUpdate() != 0) {
+        return true;
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    } finally {
+      FabricaConexao.closeConnection(con, st);
+    }
+
     return false;
   }
 
