@@ -1,20 +1,23 @@
 package dao;
 
+import model.Autor;
+
 import java.util.List;
 
-public class AutorDao implements Dao {
+public class AutorDao implements Dao<Autor> {
+
   @Override
-  public boolean create() {
+  public boolean create(Autor o) {
     return false;
   }
 
   @Override
-  public List<?> findAll() {
+  public List<Autor> findAll() {
     return null;
   }
 
   @Override
-  public List<?> findByName(String s) {
+  public List<Autor> findByName(String s) {
     return null;
   }
 
