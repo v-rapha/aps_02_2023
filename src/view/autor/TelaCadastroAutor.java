@@ -1,5 +1,7 @@
 package view.autor;
 
+import controller.AutorController;
+import dao.AutorDao;
 import model.Autor;
 
 import javax.swing.*;
@@ -122,6 +124,7 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
   @Override
   public void init() {
     initComponents();
+    new AutorController(new AutorDao(), this).init();
   }
 
   @Override

@@ -3,7 +3,6 @@ package dao;
 import java.sql.*;
 
 public class FabricaConexao {
-  private final static String DRIVER = "com.mysql.jdbc.Driver";
   private final static String DBNAME = "aps_livraria";
   private final static String URL = "jdbc:mysql://localhost:3306/" + DBNAME;
   private final static String LOGIN = "root";
@@ -11,9 +10,12 @@ public class FabricaConexao {
 
   public static Connection getConnection() {
     try {
+      Class.forName("com.mysql.cj.jdbc.Driver");
       return DriverManager.getConnection(URL, LOGIN, PASS);
     } catch (SQLException ex) {
       throw new RuntimeException("Erro na conexão " + ex);
+    } catch (ClassNotFoundException e) {
+      throw new RuntimeException(e);
     }
   }
 
