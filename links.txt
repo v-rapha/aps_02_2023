@@ -1,0 +1,4 @@
+https://stackoverflow.com/questions/2102912/cant-make-jdbc-connection-to-mysql-using-java-intellij-and-linux
+https://stackoverflow.com/questions/22371720/how-to-add-row-dynamically-in-jtable
+https://stackoverflow.com/questions/1990817/how-to-make-a-jtable-non-editable
+https://www.youtube.com/watch?v=V2_b8IsHSsk&t=1176s

@@ -10,6 +10,10 @@ public class Autor {
     this.sobrenome = aSobrenome;
   }
 
+  public Autor() {
+
+  }
+
   public int getId() {
     return id;
   }

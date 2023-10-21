@@ -5,33 +5,36 @@ import dao.AutorDao;
 import model.Autor;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TelaCadastroAutor extends JFrame implements ViewAutor {
   JLabel jLabelTituloP = new JLabel("Cadastro de Autor");
   JLabel jLabelNome = new JLabel("Nome:");
   JLabel jLabelSobrenome = new JLabel("Sobrenome:");
-  JPanel jPanelCadastroAutor = new JPanel();
+  //JPanel jPanelCadastroAutor = new JPanel();
   JTextField jTextFieldNome = new JTextField();
   JTextField jTextFieldSobrenome = new JTextField();
   JButton jButtonSalvar = new JButton("Salvar");
   JButton jButtonLimpar = new JButton("Limpar");
   JButton jButtonCancelar = new JButton("Cancelar");
   JButton jButtonBuscar = new JButton("Buscar");
+  private JTable tabela;
+  private JScrollPane jScroll;
+  private DefaultTableModel modelo;
+  private List<Autor> listaAutores = new ArrayList<>();
 
 //  public TelaCadastroAutor() {
 //    initComponents();
 //  }
 
   private void initComponents() {
-    jLabelTituloP.setFont(new Font("JetBrains Mono", Font.BOLD, 24));
+    jLabelTituloP.setFont(new Font("JetBrains Mono", Font.BOLD, 20));
 
-    jPanelCadastroAutor.setBackground(new Color(204, 204, 204));
-    jPanelCadastroAutor.setPreferredSize(new Dimension(780, 400));
-
-    jLabelNome.setFont(new Font("JetBrains Mono", Font.PLAIN, 18));
+    jLabelNome.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
 
     jTextFieldNome.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
     jTextFieldNome.setToolTipText("Insira o nome do autor");
@@ -39,81 +42,60 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
     jLabelSobrenome.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
     jTextFieldSobrenome.setToolTipText("Insira o sobrenome do autor");
 
-    jButtonSalvar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 18));
-    jButtonLimpar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 18));
-    jButtonCancelar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 18));
-    jButtonBuscar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 18));
+    jButtonSalvar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
+    jButtonLimpar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
+    jButtonCancelar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
+    jButtonBuscar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
 
-    GroupLayout jPanelCadastroAutorLayout = new GroupLayout(jPanelCadastroAutor);
-    jPanelCadastroAutor.setLayout(jPanelCadastroAutorLayout);
-    jPanelCadastroAutorLayout.setHorizontalGroup(
-            jPanelCadastroAutorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelCadastroAutorLayout.createSequentialGroup()
-                            .addGap(73, 73, 73)
-                            .addGroup(jPanelCadastroAutorLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanelCadastroAutorLayout.createSequentialGroup()
-                                            .addComponent(jButtonSalvar)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jButtonLimpar)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jButtonCancelar)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jButtonBuscar))
-                                    .addGroup(jPanelCadastroAutorLayout.createSequentialGroup()
-                                            .addGroup(jPanelCadastroAutorLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jLabelSobrenome)
-                                                    .addComponent(jLabelNome))
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addGroup(jPanelCadastroAutorLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(jTextFieldNome, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
-                                                    .addComponent(jTextFieldSobrenome))))
-                            .addContainerGap(137, Short.MAX_VALUE))
-    );
-    jPanelCadastroAutorLayout.setVerticalGroup(
-            jPanelCadastroAutorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelCadastroAutorLayout.createSequentialGroup()
-                            .addGap(83, 83, 83)
-                            .addGroup(jPanelCadastroAutorLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabelNome)
-                                    .addComponent(jTextFieldNome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanelCadastroAutorLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabelSobrenome)
-                                    .addComponent(jTextFieldSobrenome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
-                            .addGroup(jPanelCadastroAutorLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jButtonSalvar)
-                                    .addComponent(jButtonLimpar)
-                                    .addComponent(jButtonCancelar)
-                                    .addComponent(jButtonBuscar))
-                            .addGap(57, 57, 57))
-    );
+    DefaultTableModel tableModel = new DefaultTableModel() {
+      @Override
+      public boolean isCellEditable(int row, int column) {
+        return false;
+      }
+    };
+    tableModel.addColumn("ID");
+    tableModel.addColumn("Nome");
+    tableModel.addColumn("Idade");
+    tabela = new JTable(tableModel);
+    tabela.getColumnModel().getColumn(0).setPreferredWidth(10);
+    tabela.getColumnModel().getColumn(1).setPreferredWidth(120);
+    tabela.getColumnModel().getColumn(2).setPreferredWidth(80);
 
-    GroupLayout layout = new GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                            .addContainerGap()
-                                            .addComponent(jPanelCadastroAutor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                            .addGap(268, 268, 268)
-                                            .addComponent(jLabelTituloP)))
-                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-    );
-    layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                            .addGap(18, 18, 18)
-                            .addComponent(jLabelTituloP)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jPanelCadastroAutor, GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
-                            .addContainerGap())
-    );
+    //tabela.setModel(modelo);
+
+    // Adicionando colunas e linhas a tabela
+    //modelo.addColumn("Id");
+    //modelo.addColumn("Nome");
+    //modelo.addColumn("Sobrenome");
+
+
+    jScroll = new JScrollPane(tabela);
+
+    setLayout(null);
+    jLabelTituloP.setBounds(300, 15, 250, 20);
+    jLabelNome.setBounds(100, 50, 80, 20);
+    jTextFieldNome.setBounds(150, 50, 150, 20);
+    jLabelSobrenome.setBounds(320, 50, 80, 20);
+    jTextFieldSobrenome.setBounds(395, 50, 100, 20);
+    jButtonSalvar.setBounds(180, 350, 100, 20);
+    jButtonBuscar.setBounds(300, 350, 100, 20);
+    jButtonLimpar.setBounds(420, 350, 100, 20);
+    jButtonCancelar.setBounds(540, 350, 110, 20);
+    jScroll.setBounds(120, 120, 550, 200);
+
+    add(jLabelTituloP);
+    add(jLabelNome);
+    add(jTextFieldNome);
+    add(jLabelSobrenome);
+    add(jTextFieldSobrenome);
+    add(jButtonSalvar);
+    add(jButtonBuscar);
+    add(jButtonLimpar);
+    add(jButtonCancelar);
+    add(jScroll);
 
     pack();
+    setBounds(0, 0, 800, 500);
     setTitle("Livraria - Cadastro de Livros");
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setLocationRelativeTo(null);
@@ -128,8 +110,23 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
   }
 
   @Override
-  public void mostrarAutores(List<Autor> autores) {
+  public void mostrarAutores(List<Autor> listaAutores) {
+    this.atualizaTabela(listaAutores);
+  }
 
+  private void atualizaTabela(List<Autor> as) {
+    DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+    listaAutores.clear();
+
+    listaAutores.addAll(as);
+
+    while (modelo.getRowCount() > 0) {
+      modelo.removeRow(0);
+    }
+
+    for (Autor a : listaAutores) {
+      modelo.addRow(new Object[] {a.getId(), a.getNome(), a.getSobrenome()});
+    }
   }
 
   @Override

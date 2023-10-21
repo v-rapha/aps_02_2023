@@ -4,8 +4,10 @@ import dao.AutorDao;
 import model.Autor;
 import view.autor.TelaCadastroAutor;
 
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class AutorController {
   private AutorDao autorDao;
@@ -18,6 +20,11 @@ public class AutorController {
 
   public void init() {
     autorView.actionAdcionarAutorListener(new AcaoInserirAutor());
+    autorView.mostrarAutores(getAutores());
+  }
+
+  private List<Autor> getAutores() {
+    return autorDao.findAll();
   }
 
   class AcaoInserirAutor implements ActionListener {
