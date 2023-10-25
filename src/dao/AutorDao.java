@@ -13,6 +13,8 @@ import java.util.List;
 public class AutorDao implements Dao<Autor> {
   private final String INSERT = "INSERT INTO Authors (name, fname) VALUES (?, ?)";
   private final String LIST = "SELECT * FROM Authors";
+  private final String LIKE = "SELECT * FROM Authors WHERE name LIKE ?";
+  private final String UPDATE = "UPDATE Authors SET name = ?, fname = ? WHERE author_id = ?";
 
   @Override
   public boolean create(Autor autor) {
@@ -69,11 +71,56 @@ public class AutorDao implements Dao<Autor> {
 
   @Override
   public List<Autor> findByName(String s) {
-    return null;
+    Connection con = FabricaConexao.getConnection();
+    PreparedStatement stnt = null;
+    ResultSet rs = null;
+
+    List<Autor> autores = new ArrayList<>();
+
+    try {
+      stnt = con.prepareStatement(LIKE);
+      stnt.setString(1, s + "%");
+      rs = stnt.executeQuery();
+
+      while (rs.next()) {
+        Autor autor = new Autor();
+
+        autor.setId(rs.getInt("author_id"));
+        autor.setNome(rs.getString("name"));
+        autor.setSobrenome(rs.getString("fname"));
+
+        autores.add(autor);
+      }
+
+    } catch (SQLException e) {
+      JOptionPane.showMessageDialog(null, "Erro ao listar " + e.getMessage());
+    } finally {
+      FabricaConexao.closeConnection(con, stnt, rs);
+    }
+
+    return autores;
   }
 
   @Override
-  public boolean update(String s) {
+  public boolean update(Autor a) {
+    Connection con = FabricaConexao.getConnection();
+    PreparedStatement stnt = null;
+
+    try {
+      stnt = con.prepareStatement(UPDATE);
+      stnt.setString(1, a.getNome());
+      stnt.setString(2, a.getSobrenome());
+      stnt.setInt(3, a.getId());
+
+      if (stnt.executeUpdate() != 0) {
+        return true;
+      }
+    } catch (SQLException e) {
+      return false;
+    } finally {
+      FabricaConexao.closeConnection(con, stnt);
+    }
+
     return false;
   }
 

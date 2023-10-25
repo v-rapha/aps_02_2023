@@ -10,6 +10,6 @@ public interface Dao<T> {
 
   List<T> findAll();
   List<T> findByName(String s);
-  boolean update(String s);
+  boolean update(T entity);
   boolean delete();
 }

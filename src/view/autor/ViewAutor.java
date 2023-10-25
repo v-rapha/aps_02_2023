@@ -8,11 +8,10 @@ import java.util.List;
 
 public interface ViewAutor {
   void init();
-
   void mostrarAutores(List<Autor> list);
-
-  void actionBuscaAutorByNomeListener(ActionListener al);
-  void actionAdcionarAutorListener(ActionListener al);
+  void addBuscaAutorByNomeListener(ActionListener al);
+  void addAdcionarAutorListener(ActionListener al);
+  void addAtualizarAutorListener(ActionListener al);
   String getNomeAutor();
   String getSobrenomeAutor();
 

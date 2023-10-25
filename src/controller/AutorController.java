@@ -19,7 +19,9 @@ public class AutorController {
   }
 
   public void init() {
-    autorView.actionAdcionarAutorListener(new AcaoInserirAutor());
+    autorView.addAdcionarAutorListener(new AcaoInserirAutor());
+    autorView.addBuscaAutorByNomeListener(new AcaoBuscarAutor());
+    autorView.addAtualizarAutorListener(new AcaoAtualizarAutor());
     autorView.mostrarAutores(getAutores());
   }
 
@@ -34,6 +36,28 @@ public class AutorController {
       String sobrenome = autorView.getSobrenomeAutor();
 
       autorDao.create(new Autor(nome, sobrenome));
+    }
+  }
+
+  class AcaoBuscarAutor implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      String nome = autorView.getNomeAutor();
+
+      List<Autor> autores = autorDao.findByName(nome);
+      autorView.atualizaTabela(autores);
+    }
+  }
+
+  class AcaoAtualizarAutor implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      Autor a = autorView.selecionaLinhaTabela();
+      System.out.println("AcaoAtualizarAutor " + a);
+      autorDao.update(a);
+
+      List<Autor> autores =  autorDao.findAll();
+      autorView.atualizaTabela(autores);
     }
   }
 }

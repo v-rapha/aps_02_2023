@@ -8,6 +8,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
   JTextField jTextFieldNome = new JTextField();
   JTextField jTextFieldSobrenome = new JTextField();
   JButton jButtonSalvar = new JButton("Salvar");
-  JButton jButtonLimpar = new JButton("Limpar");
+  JButton jButtonAtualizar = new JButton("Atualizar");
   JButton jButtonCancelar = new JButton("Cancelar");
   JButton jButtonBuscar = new JButton("Buscar");
   private JTable tabela;
@@ -35,15 +37,15 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
     jLabelTituloP.setFont(new Font("JetBrains Mono", Font.BOLD, 20));
 
     jLabelNome.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
-
     jTextFieldNome.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
     jTextFieldNome.setToolTipText("Insira o nome do autor");
 
     jLabelSobrenome.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
+    jTextFieldSobrenome.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
     jTextFieldSobrenome.setToolTipText("Insira o sobrenome do autor");
 
     jButtonSalvar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
-    jButtonLimpar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
+    jButtonAtualizar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
     jButtonCancelar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
     jButtonBuscar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
 
@@ -60,6 +62,32 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
     tabela.getColumnModel().getColumn(0).setPreferredWidth(10);
     tabela.getColumnModel().getColumn(1).setPreferredWidth(120);
     tabela.getColumnModel().getColumn(2).setPreferredWidth(80);
+    tabela.addMouseListener(new MouseListener() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        if (tabela.getSelectedRow() != -1) {
+          //txID.setText(tabela.getValueAt(tabela.getSelectedRow(), 0).toString());
+          jTextFieldNome.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
+          jTextFieldSobrenome.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
+        } else {
+          JOptionPane.showMessageDialog(null, "Selecione uma linha");
+        }
+      }
+
+      @Override
+      public void mouseEntered(MouseEvent e) {}
+      @Override
+      public void mouseExited(MouseEvent e) {}
+      @Override
+      public void mousePressed(MouseEvent e) {}
+
+      @Override
+      public void mouseReleased(MouseEvent e) {
+        //txID.setText("");
+        jTextFieldNome.setText("");
+        jTextFieldSobrenome.setText("");
+      }
+    });
 
     //tabela.setModel(modelo);
 
@@ -79,7 +107,7 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
     jTextFieldSobrenome.setBounds(395, 50, 100, 20);
     jButtonSalvar.setBounds(180, 350, 100, 20);
     jButtonBuscar.setBounds(300, 350, 100, 20);
-    jButtonLimpar.setBounds(420, 350, 100, 20);
+    jButtonAtualizar.setBounds(420, 350, 100, 20);
     jButtonCancelar.setBounds(540, 350, 110, 20);
     jScroll.setBounds(120, 120, 550, 200);
 
@@ -90,7 +118,7 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
     add(jTextFieldSobrenome);
     add(jButtonSalvar);
     add(jButtonBuscar);
-    add(jButtonLimpar);
+    add(jButtonAtualizar);
     add(jButtonCancelar);
     add(jScroll);
 
@@ -114,7 +142,7 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
     this.atualizaTabela(listaAutores);
   }
 
-  private void atualizaTabela(List<Autor> as) {
+  public void atualizaTabela(List<Autor> as) {
     DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
     listaAutores.clear();
 
@@ -129,15 +157,35 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
     }
   }
 
-  @Override
-  public void actionBuscaAutorByNomeListener(ActionListener al) {
-    this.jButtonBuscar.addActionListener(al);
-    this.jTextFieldNome.addActionListener(al);
+  public Autor selecionaLinhaTabela() {
+    //int linha = tabela.getSelectedRow();
+    String nome = jTextFieldNome.getText();
+    String sobrenome = jTextFieldSobrenome.getText();
+    Autor a = new Autor(nome, sobrenome);
+    a.setId((int) tabela.getValueAt(tabela.getSelectedRow(), 0));
+
+    //Autor a = listaAutores.get(linha);
+    System.out.println(a);
+
+    //tela.setVisible(true);
+    //tela.setAutor(a);
+
+    return a;
   }
 
   @Override
-  public void actionAdcionarAutorListener(ActionListener al) {
+  public void addBuscaAutorByNomeListener(ActionListener al) {
+    this.jButtonBuscar.addActionListener(al);
+  }
+
+  @Override
+  public void addAdcionarAutorListener(ActionListener al) {
     this.jButtonSalvar.addActionListener(al);
+  }
+
+  @Override
+  public void addAtualizarAutorListener(ActionListener al) {
+    this.jButtonAtualizar.addActionListener(al);
   }
 
   @Override
