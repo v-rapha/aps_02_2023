@@ -189,6 +189,11 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
   }
 
   @Override
+  public void addDeletarAutorListener(ActionListener al) {
+    this.jButtonCancelar.addActionListener(al);
+  }
+
+  @Override
   public String getNomeAutor() {
     String nome = this.jTextFieldNome.getText();
     return nome;

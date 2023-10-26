@@ -12,6 +12,7 @@ public interface ViewAutor {
   void addBuscaAutorByNomeListener(ActionListener al);
   void addAdcionarAutorListener(ActionListener al);
   void addAtualizarAutorListener(ActionListener al);
+  void addDeletarAutorListener(ActionListener al);
   String getNomeAutor();
   String getSobrenomeAutor();
 

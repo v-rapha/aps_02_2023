@@ -15,6 +15,7 @@ public class AutorDao implements Dao<Autor> {
   private final String LIST = "SELECT * FROM Authors";
   private final String LIKE = "SELECT * FROM Authors WHERE name LIKE ?";
   private final String UPDATE = "UPDATE Authors SET name = ?, fname = ? WHERE author_id = ?";
+  private static final String DELETE = "DELETE FROM Authors WHERE author_id = ?";
 
   @Override
   public boolean create(Autor autor) {
@@ -125,7 +126,23 @@ public class AutorDao implements Dao<Autor> {
   }
 
   @Override
-  public boolean delete() {
+  public boolean delete(Autor a) {
+    Connection con = FabricaConexao.getConnection();
+    PreparedStatement stnt = null;
+
+    try {
+      stnt = con.prepareStatement(DELETE);
+      stnt.setInt(1, a.getId());
+
+      if (stnt.executeUpdate() != 0) {
+        return true;
+      }
+    } catch (SQLException e) {
+      return false;
+    } finally {
+      FabricaConexao.closeConnection(con, stnt);
+    }
+
     return false;
   }
 }

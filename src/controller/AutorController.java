@@ -22,6 +22,7 @@ public class AutorController {
     autorView.addAdcionarAutorListener(new AcaoInserirAutor());
     autorView.addBuscaAutorByNomeListener(new AcaoBuscarAutor());
     autorView.addAtualizarAutorListener(new AcaoAtualizarAutor());
+    autorView.addDeletarAutorListener(new AcaoDeletarAutor());
     autorView.mostrarAutores(getAutores());
   }
 
@@ -57,6 +58,18 @@ public class AutorController {
       autorDao.update(a);
 
       List<Autor> autores =  autorDao.findAll();
+      autorView.atualizaTabela(autores);
+    }
+  }
+
+  class AcaoDeletarAutor implements ActionListener {
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      Autor a = autorView.selecionaLinhaTabela();
+      autorDao.delete(a);
+
+      List<Autor> autores = autorDao.findAll();
       autorView.atualizaTabela(autores);
     }
   }
