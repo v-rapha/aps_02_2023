@@ -1,8 +1,11 @@
-package view.autor;
+package view.editora;
 
 import controller.AutorController;
+import controller.EditoraController;
 import dao.AutorDao;
+import dao.EditoraDao;
 import model.Autor;
+import model.Editora;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -13,13 +16,12 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TelaCadastroAutor extends JFrame implements ViewAutor {
-  JLabel jLabelTituloP = new JLabel("Cadastro de Autor");
+public class TelaCadastroEditora extends JFrame implements ViewEditora {
+  JLabel jLabelTituloP = new JLabel("Cadastro de Editora");
   JLabel jLabelNome = new JLabel("Nome:");
-  JLabel jLabelSobrenome = new JLabel("Sobrenome:");
-  //JPanel jPanelCadastroAutor = new JPanel();
   JTextField jTextFieldNome = new JTextField();
-  JTextField jTextFieldSobrenome = new JTextField();
+  JLabel jLabelUrl = new JLabel("Site:");
+  JTextField jTextFieldUrl = new JTextField();
   JButton jButtonSalvar = new JButton("Salvar");
   JButton jButtonAtualizar = new JButton("Atualizar");
   JButton jButtonExcluir = new JButton("Excluir");
@@ -27,22 +29,22 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
   private JTable tabela;
   private JScrollPane jScroll;
   private DefaultTableModel modelo;
-  private List<Autor> listaAutores = new ArrayList<>();
-
-//  public TelaCadastroAutor() {
-//    initComponents();
-//  }
+  private List<Editora> listaEditoras = new ArrayList<>();
 
   private void initComponents() {
-    jLabelTituloP.setFont(new Font("JetBrains Mono", Font.BOLD, 20));
+    setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    setTitle("Livraria - Cadastro de Editora");
+    setResizable(false);
 
-    jLabelNome.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
+    jLabelTituloP.setFont(new Font("JetBrains Mono", Font.BOLD, 24));
+
+    jLabelNome.setFont(new Font("JetBrains Mono", Font.PLAIN, 18));
     jTextFieldNome.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
-    jTextFieldNome.setToolTipText("Insira o nome do autor");
+    jTextFieldNome.setToolTipText("Insira o nome da editora");
 
-    jLabelSobrenome.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
-    jTextFieldSobrenome.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
-    jTextFieldSobrenome.setToolTipText("Insira o sobrenome do autor");
+    jLabelUrl.setFont(new Font("JetBrains Mono", Font.PLAIN, 18));
+    jTextFieldUrl.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
+    jTextFieldUrl.setToolTipText("Insira o site da editora");
 
     jButtonSalvar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
     jButtonAtualizar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
@@ -57,7 +59,7 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
     };
     tableModel.addColumn("ID");
     tableModel.addColumn("Nome");
-    tableModel.addColumn("Sobrenome");
+    tableModel.addColumn("Url");
     tabela = new JTable(tableModel);
     tabela.getColumnModel().getColumn(0).setPreferredWidth(10);
     tabela.getColumnModel().getColumn(1).setPreferredWidth(120);
@@ -68,7 +70,7 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
         if (tabela.getSelectedRow() != -1) {
           //txID.setText(tabela.getValueAt(tabela.getSelectedRow(), 0).toString());
           jTextFieldNome.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
-          jTextFieldSobrenome.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
+          jTextFieldUrl.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
         } else {
           JOptionPane.showMessageDialog(null, "Selecione uma linha");
         }
@@ -85,17 +87,9 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
       public void mouseReleased(MouseEvent e) {
         //txID.setText("");
         jTextFieldNome.setText("");
-        jTextFieldSobrenome.setText("");
+        jTextFieldUrl.setText("");
       }
     });
-
-    //tabela.setModel(modelo);
-
-    // Adicionando colunas e linhas a tabela
-    //modelo.addColumn("Id");
-    //modelo.addColumn("Nome");
-    //modelo.addColumn("Sobrenome");
-
 
     jScroll = new JScrollPane(tabela);
 
@@ -103,8 +97,8 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
     jLabelTituloP.setBounds(300, 15, 250, 20);
     jLabelNome.setBounds(100, 50, 80, 20);
     jTextFieldNome.setBounds(150, 50, 150, 20);
-    jLabelSobrenome.setBounds(320, 50, 80, 20);
-    jTextFieldSobrenome.setBounds(395, 50, 100, 20);
+    jLabelUrl.setBounds(320, 50, 80, 20);
+    jTextFieldUrl.setBounds(395, 50, 100, 20);
     jButtonSalvar.setBounds(180, 350, 100, 20);
     jButtonBuscar.setBounds(300, 350, 100, 20);
     jButtonAtualizar.setBounds(420, 350, 100, 20);
@@ -114,8 +108,8 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
     add(jLabelTituloP);
     add(jLabelNome);
     add(jTextFieldNome);
-    add(jLabelSobrenome);
-    add(jTextFieldSobrenome);
+    add(jLabelUrl);
+    add(jTextFieldUrl);
     add(jButtonSalvar);
     add(jButtonBuscar);
     add(jButtonAtualizar);
@@ -124,7 +118,7 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
 
     pack();
     setBounds(0, 0, 800, 500);
-    setTitle("Livraria - Cadastro de Autores");
+    setTitle("Livraria - Cadastro de Editoras");
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setLocationRelativeTo(null);
     setResizable(false);
@@ -134,75 +128,68 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
   @Override
   public void init() {
     initComponents();
-    new AutorController(new AutorDao(), this).init();
+    new EditoraController(new EditoraDao(), this).init();
   }
 
   @Override
-  public void mostrarAutores(List<Autor> listaAutores) {
-    this.atualizaTabela(listaAutores);
+  public void mostrarEditoras(List<Editora> list) {
+    this.atualizaTabela(list);
   }
 
-  public void atualizaTabela(List<Autor> as) {
+  public void atualizaTabela(List<Editora> lsEdit) {
     DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
-    listaAutores.clear();
+    listaEditoras.clear();
 
-    listaAutores.addAll(as);
+    listaEditoras.addAll(lsEdit);
 
     while (modelo.getRowCount() > 0) {
       modelo.removeRow(0);
     }
 
-    for (Autor a : listaAutores) {
-      modelo.addRow(new Object[] {a.getId(), a.getNome(), a.getSobrenome()});
+    for (Editora e : listaEditoras) {
+      modelo.addRow(new Object[] {e.getId(), e.getNome(), e.getUrl()});
     }
   }
 
-  public Autor selecionaLinhaTabela() {
-    //int linha = tabela.getSelectedRow();
+  public Editora selecionaLinhaTabela() {
     String nome = jTextFieldNome.getText();
-    String sobrenome = jTextFieldSobrenome.getText();
-    Autor a = new Autor(nome, sobrenome);
-    a.setId((int) tabela.getValueAt(tabela.getSelectedRow(), 0));
+    String url = jTextFieldUrl.getText();
+    Editora e = new Editora(nome, url);
+    e.setId((int) tabela.getValueAt(tabela.getSelectedRow(), 0));
 
-    //Autor a = listaAutores.get(linha);
-    System.out.println(a);
-
-    //tela.setVisible(true);
-    //tela.setAutor(a);
-
-    return a;
+    return e;
   }
 
   @Override
-  public void addBuscaAutorByNomeListener(ActionListener al) {
+  public void addBuscaEditoraByNomeListener(ActionListener al) {
     this.jButtonBuscar.addActionListener(al);
   }
 
   @Override
-  public void addAdcionarAutorListener(ActionListener al) {
+  public void addAdcionarEditoraListener(ActionListener al) {
     this.jButtonSalvar.addActionListener(al);
   }
 
   @Override
-  public void addAtualizarAutorListener(ActionListener al) {
+  public void addAtualizarEditoraListener(ActionListener al) {
     this.jButtonAtualizar.addActionListener(al);
   }
 
   @Override
-  public void addDeletarAutorListener(ActionListener al) {
+  public void addDeletarEditoraListener(ActionListener al) {
     this.jButtonExcluir.addActionListener(al);
   }
 
   @Override
-  public String getNomeAutor() {
+  public String getNomeEditora() {
     String nome = this.jTextFieldNome.getText();
     return nome;
   }
 
   @Override
-  public String getSobrenomeAutor() {
-    String sobrenome = this.jTextFieldSobrenome.getText();
-    return sobrenome;
+  public String getUrlEditora() {
+    String url = this.jTextFieldUrl.getText();
+    return url;
   }
 
   @Override

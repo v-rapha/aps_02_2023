@@ -2,7 +2,6 @@ package view.autor;
 
 import model.Autor;
 
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
 import java.util.List;
 

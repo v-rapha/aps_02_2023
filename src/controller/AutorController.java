@@ -4,7 +4,6 @@ import dao.AutorDao;
 import model.Autor;
 import view.autor.TelaCadastroAutor;
 
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;

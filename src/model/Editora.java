@@ -5,6 +5,8 @@ public class Editora {
   private String nome;
   private String url;
 
+  public Editora() {}
+
   public Editora(String aNome, String aUrl) {
     this.nome = aNome;
     this.url = aUrl;
