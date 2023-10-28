@@ -4,11 +4,15 @@ public class Livro {
   private String titulo;
   private String isbn;
   private double preco;
+  private int idEditora;
 
-  public Livro(String aTitulo, String aIsbn,double aPreco) {
+  public Livro() {}
+
+  public Livro(String aTitulo, String aIsbn, double aPreco, int aIdEditora) {
     this.titulo = aTitulo;
     this.isbn = aIsbn;
     this.preco = aPreco;
+    this.idEditora = aIdEditora;
   }
 
   public String getTitulo() {
@@ -35,12 +39,21 @@ public class Livro {
     this.preco = preco;
   }
 
+  public int getIdEditora() {
+    return idEditora;
+  }
+
+  public void setIdEditora(int idEditora) {
+    this.idEditora = idEditora;
+  }
+
   @Override
   public String toString() {
     return "Livro{" +
             "titulo='" + titulo + '\'' +
             ", isbn='" + isbn + '\'' +
             ", preco=" + preco +
+            ", idEditora=" + idEditora +
             '}';
   }
 }

@@ -1,6 +1,5 @@
 package dao;
 
-import model.Autor;
 import model.Editora;
 
 import javax.swing.*;

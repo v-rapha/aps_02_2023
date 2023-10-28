@@ -1,10 +1,7 @@
 package controller;
 
-import dao.AutorDao;
 import dao.EditoraDao;
-import model.Autor;
 import model.Editora;
-import view.autor.TelaCadastroAutor;
 import view.editora.TelaCadastroEditora;
 
 import java.awt.event.ActionEvent;
