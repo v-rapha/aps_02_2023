@@ -9,6 +9,7 @@ import java.util.List;
 public interface ViewLivro {
   void init();
   void mostrarLivro(List<Livro> list);
+  void mostraEditora(List<String> list);
   void addBuscaLivroByNomeListener(ActionListener al);
   void addAdcionarLivroListener(ActionListener al);
   void addAtualizarLivroListener(ActionListener al);
@@ -16,7 +17,7 @@ public interface ViewLivro {
   String getTituloLivro();
   String getIsbnLivro();
   double getPrecoLivro();
-  int getIdEditora();
+  String getIdEditora();
 
   void close();
 }

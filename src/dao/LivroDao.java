@@ -16,6 +16,8 @@ public class LivroDao implements Dao<Livro> {
   private final String UPDATE = "UPDATE Books SET title = ?, isbn = ?, price = ?, publisher_id = ? WHERE isbn = ?";
   private static final String DELETE = "DELETE FROM Books WHERE isbn = ?";
   private final String LIST = "SELECT * FROM Books";
+  private final String LIST_PUBLISHERS_NAME = "SELECT name from Publishers";
+  private final String ID_PUBLISHER = "SELECT publisher_id from Publishers WHERE name LIKE ?";
 //  private final String LIST = "SELECT Books.isbn, Books.title, Books.price, Publishers.name AS publisher " +
 //                              "FROM Books " +
 //                              "INNER JOIN Publishers ON Books.publisher_id = Publishers.publisher_id;";
@@ -161,5 +163,54 @@ public class LivroDao implements Dao<Livro> {
     }
 
     return false;
+  }
+
+  public List<String> getPublishersName() {
+    Connection con = FabricaConexao.getConnection();
+    PreparedStatement stnt = null;
+    ResultSet rs = null;
+
+    List<String> editNames = new ArrayList<>();
+
+    try {
+      stnt = con.prepareStatement(LIST_PUBLISHERS_NAME);
+      rs = stnt.executeQuery();
+
+      while (rs.next()) {
+        String name = rs.getString("name");
+        editNames.add(name);
+      }
+
+    } catch (SQLException e) {
+      JOptionPane.showMessageDialog(null, "Erro ao listar " + e.getMessage());
+    } finally {
+      FabricaConexao.closeConnection(con, stnt, rs);
+    }
+
+    return editNames;
+  }
+
+  public int getPublisherId(String nomeEditora) {
+    Connection con = FabricaConexao.getConnection();
+    PreparedStatement stnt = null;
+    ResultSet rs = null;
+
+    int idPublisher = 0;
+
+    try {
+      stnt = con.prepareStatement(ID_PUBLISHER);
+      stnt.setString(1, nomeEditora);
+      rs = stnt.executeQuery();
+
+      if (rs.next()) {
+        idPublisher = rs.getInt("publisher_id");
+      }
+    } catch (SQLException e) {
+      JOptionPane.showMessageDialog(null, "Erro EditoraNome " + e.getMessage());
+    } finally {
+      FabricaConexao.closeConnection(con, stnt, rs);
+    }
+
+    return idPublisher;
   }
 }

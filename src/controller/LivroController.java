@@ -26,10 +26,15 @@ public class LivroController {
     livroView.addAtualizarLivroListener(new LivroController.AcaoAtualizarLivro());
     livroView.addDeletarLivroListener(new LivroController.AcaoDeletarLivro());
     livroView.mostrarLivro(getLivro());
+    livroView.mostraEditora(getEditora());
   }
 
   private List<Livro> getLivro() {
     return livroDao.findAll();
+  }
+
+  private List<String> getEditora() {
+    return livroDao.getPublishersName();
   }
 
   class AcaoInserirLivro implements ActionListener {
@@ -38,7 +43,10 @@ public class LivroController {
       String titulo = livroView.getTituloLivro();
       String isbn = livroView.getIsbnLivro();
       double preco = livroView.getPrecoLivro();
-      int idEditora = livroView.getIdEditora();
+      String editoraNome = livroView.getIdEditora();
+      System.out.println("before dao: " + editoraNome);
+      int idEditora = livroDao.getPublisherId(editoraNome);
+      System.out.println("after dao id: " + idEditora);
 
       livroDao.create(new Livro(titulo, isbn, preco, idEditora));
     }

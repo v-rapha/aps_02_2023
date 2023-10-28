@@ -33,7 +33,7 @@ public class TelaCadastroLivro extends JFrame implements ViewLivro {
   private DefaultTableModel modelo;
   private List<Livro> listaLivros = new ArrayList<>();
   private JComboBox<String> jComboBoxEditoras;
-  private List<Editora> listaEditora = new ArrayList<>();
+  private List<String> listaEditora = new ArrayList<>();
 
   private void initComponents() {
     setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -159,6 +159,11 @@ public class TelaCadastroLivro extends JFrame implements ViewLivro {
     this.atualizaTabela(list);
   }
 
+  @Override
+  public void mostraEditora(List<String> list) {
+    this.atualizaComboBox(list);
+  }
+
   public void atualizaTabela(List<Livro> lsLivros) {
     DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
     listaLivros.clear();
@@ -174,16 +179,19 @@ public class TelaCadastroLivro extends JFrame implements ViewLivro {
     }
   }
 
-//  public void atualizaComboBox(List<Editora> lsEdit) {
-//    ComboBoxModel<String> model =  jComboBoxEditoras.getModel();
-//    listaEditora.clear();
-//
-//    listaEditora.addAll(lsEdit);
-//
-//    while (jComboBoxEditoras.get > 0) {
-//      jComboBoxEditoras.remove();
-//    }
-//  }
+  public void atualizaComboBox(List<String> lsEditNames) {
+    listaEditora.clear();
+
+    listaEditora.addAll(lsEditNames);
+
+    if (jComboBoxEditoras.getItemCount() > 0) {
+      jComboBoxEditoras.removeAllItems();
+    }
+
+    for (String s: listaEditora) {
+      jComboBoxEditoras.addItem(s);
+    }
+  }
 
   public Livro selecionaLinhaTabela() {
     String isbn = jTextFieldIsbn.getText();
@@ -193,7 +201,7 @@ public class TelaCadastroLivro extends JFrame implements ViewLivro {
     l.setIsbn(isbn);
     l.setTitulo(titulo);
     l.setPreco(preco);
-    l.setIdEditora((int) tabela.getValueAt(tabela.getSelectedRow(), 3));
+    //l.setIdEditora((int) tabela.getValueAt(tabela.getSelectedRow(), 3));
 
     return l;
   }
@@ -237,9 +245,11 @@ public class TelaCadastroLivro extends JFrame implements ViewLivro {
   }
 
   @Override
-  public int getIdEditora() {
-    int idEditora = (int) tabela.getValueAt(tabela.getSelectedRow(), 3);
-    return idEditora;
+  public String getIdEditora() {
+    //int idEditora = (int) tabela.getValueAt(tabela.getSelectedRow(), 3);
+    String editora = (String) jComboBoxEditoras.getSelectedItem();
+    System.out.println(editora);
+    return editora;
   }
 
   @Override
