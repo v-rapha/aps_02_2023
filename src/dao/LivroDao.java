@@ -100,7 +100,7 @@ public class LivroDao implements Dao<Livro> {
       }
 
     } catch (SQLException e) {
-      JOptionPane.showMessageDialog(null, "Erro ao listar " + e.getMessage());
+      return null;
     } finally {
       FabricaConexao.closeConnection(con, stnt, rs);
     }
@@ -172,7 +172,7 @@ public class LivroDao implements Dao<Livro> {
       }
 
     } catch (SQLException e) {
-      JOptionPane.showMessageDialog(null, "Erro ao listar " + e.getMessage());
+      return null;
     } finally {
       FabricaConexao.closeConnection(con, stnt, rs);
     }
@@ -196,7 +196,7 @@ public class LivroDao implements Dao<Livro> {
         idPublisher = rs.getInt("publisher_id");
       }
     } catch (SQLException e) {
-      JOptionPane.showMessageDialog(null, "Erro EditoraNome " + e.getMessage());
+      return 0;
     } finally {
       FabricaConexao.closeConnection(con, stnt, rs);
     }

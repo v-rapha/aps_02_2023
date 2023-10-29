@@ -45,17 +45,32 @@ public class LivroController {
       String isbn = livroView.getIsbnLivro();
       double preco = livroView.getPrecoLivro();
 
-      if (titulo == null || isbn == null || preco == -1)
+      if (titulo == null) {
+        JOptionPane.showMessageDialog(null, "Preencha o titulo");
         return;
+      } else if (isbn == null) {
+        JOptionPane.showMessageDialog(null, "Preencha o ISBN");
+        return;
+      } else if (preco == -1) {
+        JOptionPane.showMessageDialog(null, "Insira um preço maior ou igual a zero");
+        return;
+      } else if (preco == -2) {
+        JOptionPane.showMessageDialog(null, "Insira um preço válido");
+        return;
+      }
 
       String editoraNome = livroView.getIdEditora();
       int idEditora = livroDao.getPublisherId(editoraNome);
 
-      livroDao.create(new Livro(titulo, isbn, preco, idEditora));
+      boolean criado = livroDao.create(new Livro(titulo, isbn, preco, idEditora));
 
-      livroView.limparCampos();
-      List<Livro> livros = livroDao.findAll();
-      livroView.atualizaTabela(livros);
+      if (criado) {
+        livroView.limparCampos();
+        List<Livro> livros = livroDao.findAll();
+        livroView.atualizaTabela(livros);
+      } else {
+        JOptionPane.showMessageDialog(null, "Erro ao inserir o livro");
+      }
     }
   }
 
@@ -63,8 +78,22 @@ public class LivroController {
     @Override
     public void actionPerformed(ActionEvent e) {
       String titulo = livroView.getTituloLivro();
+      if (titulo == null) {
+        List<Livro> livros = livroDao.findAll();
+        if (livros == null) {
+          JOptionPane.showMessageDialog(null, "Erro ao listar");
+          return;
+        }
+
+        livroView.atualizaTabela(livros);
+        return;
+      }
 
       List<Livro> livros = livroDao.findByName(titulo);
+      if (livros == null) {
+        JOptionPane.showMessageDialog(null, "Erro ao listar");
+        return;
+      }
       livroView.atualizaTabela(livros);
     }
   }
@@ -101,6 +130,8 @@ public class LivroController {
           List<Livro> livros = livroDao.findAll();
           livroView.atualizaTabela(livros);
         }
+      } else {
+        JOptionPane.showMessageDialog(null, "Selecione uma linha da tabela para excluir");
       }
     }
   }

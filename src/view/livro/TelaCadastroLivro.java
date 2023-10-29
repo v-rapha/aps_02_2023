@@ -24,6 +24,7 @@ public class TelaCadastroLivro extends JFrame implements ViewLivro {
   JTextField jTextFieldIsbn = new JTextField();
   JLabel jLabelPreco = new JLabel("Preço:");
   JTextField jTextFieldPreco = new JTextField();
+  JLabel jLabelEditoras = new JLabel("Editoras:");
   JButton jButtonSalvar = new JButton("Salvar");
   JButton jButtonAtualizar = new JButton("Atualizar");
   JButton jButtonExcluir = new JButton("Excluir");
@@ -53,6 +54,8 @@ public class TelaCadastroLivro extends JFrame implements ViewLivro {
     jLabelPreco.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
     jTextFieldPreco.setFont(new Font("JetBrains Mono", Font.PLAIN, 11));
     jTextFieldPreco.setToolTipText("Insira o site da editora");
+
+    jLabelEditoras.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
 
     jButtonSalvar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
     jButtonAtualizar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
@@ -118,13 +121,14 @@ public class TelaCadastroLivro extends JFrame implements ViewLivro {
     jLabelIsbn.setBounds(320, 50, 80, 20);
     jTextFieldIsbn.setBounds(360, 50, 100, 20);
     jLabelPreco.setBounds(480, 50, 80, 20);
-    jTextFieldPreco.setBounds(530, 50, 80, 20);
+    jTextFieldPreco.setBounds(530, 50, 65, 20);
     jButtonSalvar.setBounds(180, 350, 100, 20);
     jButtonBuscar.setBounds(300, 350, 100, 20);
     jButtonAtualizar.setBounds(420, 350, 100, 20);
     jButtonExcluir.setBounds(540, 350, 110, 20);
     jScroll.setBounds(120, 120, 550, 200);
-    jComboBoxEditoras.setBounds( 590, 90, 100, 20);
+    jLabelEditoras.setBounds(610, 50, 80, 20);
+    jComboBoxEditoras.setBounds( 675, 50, 100, 20);
 
     add(jLabelTituloP);
     add(jLabelTitulo);
@@ -139,6 +143,7 @@ public class TelaCadastroLivro extends JFrame implements ViewLivro {
     add(jButtonExcluir);
     add(jScroll);
     add(jComboBoxEditoras);
+    add(jLabelEditoras);
 
     pack();
     setBounds(0, 0, 800, 500);
@@ -232,8 +237,8 @@ public class TelaCadastroLivro extends JFrame implements ViewLivro {
   @Override
   public String getTituloLivro() {
     String titulo = this.jTextFieldTitulo.getText();
-    if (titulo.equals("")) {
-      JOptionPane.showMessageDialog(null, "Preencha o titulo");
+    if (titulo.trim().isEmpty()) {
+      //JOptionPane.showMessageDialog(null, "Preencha o titulo");
       return null;
     }
     return titulo;
@@ -242,8 +247,8 @@ public class TelaCadastroLivro extends JFrame implements ViewLivro {
   @Override
   public String getIsbnLivro() {
     String isbn = this.jTextFieldIsbn.getText();
-    if (isbn.equals("")) {
-      JOptionPane.showMessageDialog(null, "Preencha o ISBN");
+    if (isbn.trim().isEmpty()) {
+      //JOptionPane.showMessageDialog(null, "Preencha o ISBN");
       return null;
     }
     return isbn;
@@ -258,13 +263,11 @@ public class TelaCadastroLivro extends JFrame implements ViewLivro {
         if (preco >= 0) {
           return preco;
         } else {
-          JOptionPane.showMessageDialog(null, "Insira um preço maior ou igual a zero");
+          return -1;
         }
       } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "Insira um preço válido");
+        return -2;
       }
-    } else {
-      JOptionPane.showMessageDialog(null, "Insira um preço correto");
     }
     return -1;
   }
