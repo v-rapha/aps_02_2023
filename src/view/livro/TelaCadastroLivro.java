@@ -56,6 +56,7 @@ public class TelaCadastroLivro extends JFrame implements ViewLivro {
 
     jButtonSalvar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
     jButtonAtualizar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
+    jButtonAtualizar.setEnabled(false);
     jButtonExcluir.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
     jButtonBuscar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
 
@@ -194,16 +195,18 @@ public class TelaCadastroLivro extends JFrame implements ViewLivro {
   }
 
   public Livro selecionaLinhaTabela() {
-    String isbn = jTextFieldIsbn.getText();
-    String titulo = jTextFieldTitulo.getText();
-    double preco = Double.parseDouble(jTextFieldPreco.getText());
-    Livro l = new Livro();
-    l.setIsbn(isbn);
-    l.setTitulo(titulo);
-    l.setPreco(preco);
-    //l.setIdEditora((int) tabela.getValueAt(tabela.getSelectedRow(), 3));
+    if (tabela.getSelectedRow() != -1) {
+        String isbn = getIsbnLivro();
+        String titulo = getTituloLivro();
+        double preco = getPrecoLivro();
 
-    return l;
+        Livro l = new Livro();
+        l.setIsbn(isbn);
+        l.setTitulo(titulo);
+        l.setPreco(preco);
+        return l;
+      }
+    return null;
   }
 
   @Override
@@ -229,27 +232,56 @@ public class TelaCadastroLivro extends JFrame implements ViewLivro {
   @Override
   public String getTituloLivro() {
     String titulo = this.jTextFieldTitulo.getText();
+    if (titulo.equals("")) {
+      JOptionPane.showMessageDialog(null, "Preencha o titulo");
+      return null;
+    }
     return titulo;
   }
 
   @Override
   public String getIsbnLivro() {
     String isbn = this.jTextFieldIsbn.getText();
+    if (isbn.equals("")) {
+      JOptionPane.showMessageDialog(null, "Preencha o ISBN");
+      return null;
+    }
     return isbn;
   }
 
   @Override
   public double getPrecoLivro() {
-    double preco = Double.parseDouble(this.jTextFieldPreco.getText());
-    return preco;
+    String precoRaw = this.jTextFieldPreco.getText();
+    if (!precoRaw.isEmpty()) {
+      try {
+        double preco = Double.parseDouble(precoRaw);
+        if (preco >= 0) {
+          return preco;
+        } else {
+          JOptionPane.showMessageDialog(null, "Insira um preço maior ou igual a zero");
+        }
+      } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Insira um preço válido");
+      }
+    } else {
+      JOptionPane.showMessageDialog(null, "Insira um preço correto");
+    }
+    return -1;
   }
+
 
   @Override
   public String getIdEditora() {
     //int idEditora = (int) tabela.getValueAt(tabela.getSelectedRow(), 3);
     String editora = (String) jComboBoxEditoras.getSelectedItem();
-    System.out.println(editora);
     return editora;
+  }
+
+  @Override
+  public void limparCampos() {
+    jTextFieldTitulo.setText("");
+    jTextFieldIsbn.setText("");
+    jTextFieldPreco.setText("");
   }
 
   @Override

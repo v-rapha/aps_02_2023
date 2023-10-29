@@ -18,6 +18,8 @@ public interface ViewLivro {
   String getIsbnLivro();
   double getPrecoLivro();
   String getIdEditora();
+  void limparCampos();
 
   void close();
+
 }

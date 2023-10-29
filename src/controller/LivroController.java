@@ -7,6 +7,7 @@ import model.Livro;
 import view.editora.TelaCadastroEditora;
 import view.livro.TelaCadastroLivro;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -43,12 +44,18 @@ public class LivroController {
       String titulo = livroView.getTituloLivro();
       String isbn = livroView.getIsbnLivro();
       double preco = livroView.getPrecoLivro();
+
+      if (titulo == null || isbn == null || preco == -1)
+        return;
+
       String editoraNome = livroView.getIdEditora();
-      System.out.println("before dao: " + editoraNome);
       int idEditora = livroDao.getPublisherId(editoraNome);
-      System.out.println("after dao id: " + idEditora);
 
       livroDao.create(new Livro(titulo, isbn, preco, idEditora));
+
+      livroView.limparCampos();
+      List<Livro> livros = livroDao.findAll();
+      livroView.atualizaTabela(livros);
     }
   }
 
@@ -65,12 +72,18 @@ public class LivroController {
   class AcaoAtualizarLivro implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
-      Livro livro = livroView.selecionaLinhaTabela();
-      System.out.println(livro);
-      livroDao.update(livro);
+      if (livroView.selecionaLinhaTabela() != null) {
+        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar?", "Excluir",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (i == JOptionPane.OK_OPTION) {
+          Livro livro = livroView.selecionaLinhaTabela();
+          System.out.println(livro);
+          livroDao.update(livro);
 
-      List<Livro> livros =  livroDao.findAll();
-      livroView.atualizaTabela(livros);
+          List<Livro> livros = livroDao.findAll();
+          livroView.atualizaTabela(livros);
+        }
+      }
     }
   }
 
@@ -78,11 +91,18 @@ public class LivroController {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      Livro livro = livroView.selecionaLinhaTabela();
-      livroDao.delete(livro);
+      if (livroView.selecionaLinhaTabela() != null) {
+        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar?", "Excluir",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (i == JOptionPane.OK_OPTION) {
+          Livro livro = livroView.selecionaLinhaTabela();
+          livroDao.delete(livro);
 
-      List<Livro> livros = livroDao.findAll();
-      livroView.atualizaTabela(livros);
+          List<Livro> livros = livroDao.findAll();
+          livroView.atualizaTabela(livros);
+        }
+      }
     }
   }
 }
+

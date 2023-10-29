@@ -24,11 +24,8 @@ public class LivroDao implements Dao<Livro> {
   private final String LIKE = "SELECT * FROM Books WHERE title LIKE ?";
 
   @Override
-  public boolean create(Livro livro) {
-    // A conexão com o banco é aberta utilizando o método.getConnection() da classe
-    // FabricaConexao
+  public boolean create(Livro livro){
     Connection con = FabricaConexao.getConnection();
-    // Uma variável do tipo PreparedStatement é declarada
     PreparedStatement stnt = null;
 
     try {
@@ -38,19 +35,12 @@ public class LivroDao implements Dao<Livro> {
       stnt.setDouble(3, livro.getPreco());
       stnt.setInt(4, livro.getIdEditora());
 
-      if (stnt.executeUpdate() != 0) {
-        // Se alterou pelo menos 1 linha, então o comando deu certo
-        return true;
-      }
+      return stnt.executeUpdate() != 0;
     } catch (SQLException e) {
-      // Caso ocorra algum erro uma mensagem é mostrada ao usuário
       return false;
     } finally {
-      // Caso o comando seja executado ou ocorra algum erro, a conexão com o banco é
-      // fechada
       FabricaConexao.closeConnection(con, stnt);
     }
-    return false;
   }
 
   @Override
