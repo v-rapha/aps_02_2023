@@ -2,8 +2,10 @@ package controller;
 
 import dao.EditoraDao;
 import model.Editora;
+import model.Livro;
 import view.editora.TelaCadastroEditora;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -35,7 +37,23 @@ public class EditoraController {
       String nome = editoraView.getNomeEditora();
       String url = editoraView.getUrlEditora();
 
-      editoraDao.create(new Editora(nome, url));
+      if (nome == null) {
+        JOptionPane.showMessageDialog(null, "Preencha o campo nome");
+        return;
+      } else if (url == null) {
+        JOptionPane.showMessageDialog(null, "Preencha o campo Url");
+        return;
+      }
+
+      boolean criado = editoraDao.create(new Editora(nome, url));
+
+      if (criado) {
+        editoraView.limparCampos();
+        List<Editora> editoras = editoraDao.findAll();
+        editoraView.atualizaTabela(editoras);
+      } else {
+        JOptionPane.showMessageDialog(null, "Erro ao inserir a editora");
+      }
     }
   }
 
@@ -43,8 +61,23 @@ public class EditoraController {
     @Override
     public void actionPerformed(ActionEvent e) {
       String nome = editoraView.getNomeEditora();
+      List<Editora> editoras;
 
-      List<Editora> editoras = editoraDao.findByName(nome);
+      if (nome == null) {
+        editoras = editoraDao.findAll();
+        if (editoras == null) {
+          JOptionPane.showMessageDialog(null, "Erro ao listar");
+          return;
+        }
+        editoraView.atualizaTabela(editoras);
+        return;
+      }
+
+      editoras = editoraDao.findByName(nome);
+      if (editoras == null) {
+        JOptionPane.showMessageDialog(null, "Erro ao listar");
+        return;
+      }
       editoraView.atualizaTabela(editoras);
     }
   }
@@ -52,11 +85,25 @@ public class EditoraController {
   class AcaoAtualizarEditora implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
-      Editora editora = editoraView.selecionaLinhaTabela();
-      editoraDao.update(editora);
+      if (editoraView.selecionaLinhaTabela() != null) {
+        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar com a edição?", "Excluir",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (i == JOptionPane.OK_OPTION) {
+          Editora editora = editoraView.selecionaLinhaTabela();
+          boolean editado = editoraDao.update(editora);
 
-      List<Editora> editoras =  editoraDao.findAll();
-      editoraView.atualizaTabela(editoras);
+          if (editado) {
+            editoraView.limparCampos();
+            List<Editora> editoras = editoraDao.findAll();
+            editoraView.atualizaTabela(editoras);
+          } else {
+            JOptionPane.showMessageDialog(null, "Erro ao editar");
+          }
+        }
+        editoraView.limparCampos();
+      } else {
+        JOptionPane.showMessageDialog(null, "Selecione uma linha da tabela para editar");
+      }
     }
   }
 
@@ -64,11 +111,25 @@ public class EditoraController {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      Editora editora = editoraView.selecionaLinhaTabela();
-      editoraDao.delete(editora);
+      if (editoraView.selecionaLinhaTabela() != null) {
+        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar com a exclusão?", "Excluir",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (i == JOptionPane.OK_OPTION) {
+          Editora editora = editoraView.selecionaLinhaTabela();
+          boolean excluido = editoraDao.delete(editora);
 
-      List<Editora> editoras = editoraDao.findAll();
-      editoraView.atualizaTabela(editoras);
+          if (excluido) {
+            editoraView.limparCampos();
+            List<Editora> editoras = editoraDao.findAll();
+            editoraView.atualizaTabela(editoras);
+          } else {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir");
+          }
+        }
+        editoraView.limparCampos();
+      } else {
+        JOptionPane.showMessageDialog(null, "Selecione uma linha da tabela para excluir");
+      }
     }
   }
 }

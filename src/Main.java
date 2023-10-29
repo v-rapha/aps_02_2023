@@ -7,7 +7,7 @@ public class Main {
   public static void main(String[] args) {
     //new TelaPrincipal().setVisible(true);
     //new TelaCadastroAutor().init();
-    //new TelaCadastroEditora().init();
-    new TelaCadastroLivro().init();
+    new TelaCadastroEditora().init();
+    //new TelaCadastroLivro().init();
   }
 }

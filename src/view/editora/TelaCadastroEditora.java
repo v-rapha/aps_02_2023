@@ -36,14 +36,14 @@ public class TelaCadastroEditora extends JFrame implements ViewEditora {
     setTitle("Livraria - Cadastro de Editora");
     setResizable(false);
 
-    jLabelTituloP.setFont(new Font("JetBrains Mono", Font.BOLD, 24));
+    jLabelTituloP.setFont(new Font("JetBrains Mono", Font.BOLD, 20));
 
-    jLabelNome.setFont(new Font("JetBrains Mono", Font.PLAIN, 18));
-    jTextFieldNome.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
+    jLabelNome.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
+    jTextFieldNome.setFont(new Font("JetBrains Mono", Font.PLAIN, 11));
     jTextFieldNome.setToolTipText("Insira o nome da editora");
 
-    jLabelUrl.setFont(new Font("JetBrains Mono", Font.PLAIN, 18));
-    jTextFieldUrl.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
+    jLabelUrl.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
+    jTextFieldUrl.setFont(new Font("JetBrains Mono", Font.PLAIN, 11));
     jTextFieldUrl.setToolTipText("Insira o site da editora");
 
     jButtonSalvar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
@@ -95,10 +95,10 @@ public class TelaCadastroEditora extends JFrame implements ViewEditora {
 
     setLayout(null);
     jLabelTituloP.setBounds(300, 15, 250, 20);
-    jLabelNome.setBounds(100, 50, 80, 20);
-    jTextFieldNome.setBounds(150, 50, 150, 20);
-    jLabelUrl.setBounds(320, 50, 80, 20);
-    jTextFieldUrl.setBounds(395, 50, 100, 20);
+    jLabelNome.setBounds(120, 50, 80, 20);
+    jTextFieldNome.setBounds(170, 50, 150, 20);
+    jLabelUrl.setBounds(350, 50, 80, 20);
+    jTextFieldUrl.setBounds(390, 50, 200, 20);
     jButtonSalvar.setBounds(180, 350, 100, 20);
     jButtonBuscar.setBounds(300, 350, 100, 20);
     jButtonAtualizar.setBounds(420, 350, 100, 20);
@@ -152,12 +152,14 @@ public class TelaCadastroEditora extends JFrame implements ViewEditora {
   }
 
   public Editora selecionaLinhaTabela() {
-    String nome = jTextFieldNome.getText();
-    String url = jTextFieldUrl.getText();
-    Editora e = new Editora(nome, url);
-    e.setId((int) tabela.getValueAt(tabela.getSelectedRow(), 0));
-
-    return e;
+    if (tabela.getSelectedRow() != -1) {
+      String nome = jTextFieldNome.getText();
+      String url = jTextFieldUrl.getText();
+      Editora e = new Editora(nome, url);
+      e.setId((int) tabela.getValueAt(tabela.getSelectedRow(), 0));
+      return e;
+    }
+    return null;
   }
 
   @Override
@@ -183,13 +185,25 @@ public class TelaCadastroEditora extends JFrame implements ViewEditora {
   @Override
   public String getNomeEditora() {
     String nome = this.jTextFieldNome.getText();
+    if (nome.trim().isEmpty()) {
+      return null;
+    }
     return nome;
   }
 
   @Override
   public String getUrlEditora() {
     String url = this.jTextFieldUrl.getText();
+    if (url.trim().isEmpty()) {
+      return null;
+    }
     return url;
+  }
+
+  @Override
+  public void limparCampos() {
+    this.jTextFieldNome.setText("");
+    this.jTextFieldUrl.setText("");
   }
 
   @Override

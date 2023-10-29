@@ -125,11 +125,17 @@ public class LivroController {
                 JOptionPane.OK_CANCEL_OPTION);
         if (i == JOptionPane.OK_OPTION) {
           Livro livro = livroView.selecionaLinhaTabela();
-          livroDao.delete(livro);
+          boolean excluido =  livroDao.delete(livro);
 
-          List<Livro> livros = livroDao.findAll();
-          livroView.atualizaTabela(livros);
+          if (excluido) {
+            livroView.limparCampos();
+            List<Livro> livros = livroDao.findAll();
+            livroView.atualizaTabela(livros);
+          } else {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir");
+          }
         }
+        livroView.limparCampos();
       } else {
         JOptionPane.showMessageDialog(null, "Selecione uma linha da tabela para excluir");
       }

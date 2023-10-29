@@ -15,6 +15,8 @@ public interface ViewEditora {
   void addDeletarEditoraListener(ActionListener al);
   String getNomeEditora();
   String getUrlEditora();
+  void limparCampos();
 
   void close();
+
 }

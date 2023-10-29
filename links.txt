@@ -6,3 +6,6 @@ https://www.youtube.com/watch?v=V2_b8IsHSsk&t=1176s
 ----------------Objeção----------------
 Para o cadastro definitivo de "Livros" é necessário primeiro a criação do "Autor" e depois o "Book".
 Após, é necessário realizar a junção de "Autor" e "Book" utilizando a tabela "BooksAuthors"
+
+Na validação dos campos, uma ideia talvez seja a implementação de um método que recebe a variável (campo) e verifica
+se ela e "null" e retorna o JOp com o nome do campo
