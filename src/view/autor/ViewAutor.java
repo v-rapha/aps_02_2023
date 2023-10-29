@@ -14,6 +14,8 @@ public interface ViewAutor {
   void addDeletarAutorListener(ActionListener al);
   String getNomeAutor();
   String getSobrenomeAutor();
+  void limparCampos();
 
   void close();
+
 }

@@ -158,19 +158,14 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
   }
 
   public Autor selecionaLinhaTabela() {
-    //int linha = tabela.getSelectedRow();
-    String nome = jTextFieldNome.getText();
-    String sobrenome = jTextFieldSobrenome.getText();
-    Autor a = new Autor(nome, sobrenome);
-    a.setId((int) tabela.getValueAt(tabela.getSelectedRow(), 0));
-
-    //Autor a = listaAutores.get(linha);
-    System.out.println(a);
-
-    //tela.setVisible(true);
-    //tela.setAutor(a);
-
-    return a;
+    if (tabela.getSelectedRow() != -1) {
+      String nome = jTextFieldNome.getText();
+      String sobrenome = jTextFieldSobrenome.getText();
+      Autor a = new Autor(nome, sobrenome);
+      a.setId((int) tabela.getValueAt(tabela.getSelectedRow(), 0));
+      return a;
+    }
+    return null;
   }
 
   @Override
@@ -196,13 +191,25 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
   @Override
   public String getNomeAutor() {
     String nome = this.jTextFieldNome.getText();
+    if (nome.trim().isEmpty()) {
+      return null;
+    }
     return nome;
   }
 
   @Override
   public String getSobrenomeAutor() {
     String sobrenome = this.jTextFieldSobrenome.getText();
+    if (sobrenome.trim().isEmpty()) {
+      return null;
+    }
     return sobrenome;
+  }
+
+  @Override
+  public void limparCampos() {
+    this.jTextFieldNome.setText("");
+    this.jTextFieldSobrenome.setText("");
   }
 
   @Override

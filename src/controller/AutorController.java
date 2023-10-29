@@ -2,8 +2,10 @@ package controller;
 
 import dao.AutorDao;
 import model.Autor;
+import model.Editora;
 import view.autor.TelaCadastroAutor;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -35,7 +37,23 @@ public class AutorController {
       String nome = autorView.getNomeAutor();
       String sobrenome = autorView.getSobrenomeAutor();
 
-      autorDao.create(new Autor(nome, sobrenome));
+      if (nome == null) {
+        JOptionPane.showMessageDialog(null, "Preencha o campo nome");
+        return;
+      } else if (sobrenome == null) {
+        JOptionPane.showMessageDialog(null, "Preencha o campo sobrenome");
+        return;
+      }
+
+      boolean criado = autorDao.create(new Autor(nome, sobrenome));
+
+      if (criado) {
+        autorView.limparCampos();
+        List<Autor> autores = autorDao.findAll();
+        autorView.atualizaTabela(autores);
+      } else {
+        JOptionPane.showMessageDialog(null, "Erro ao inserir o autor");
+      }
     }
   }
 
@@ -43,8 +61,25 @@ public class AutorController {
     @Override
     public void actionPerformed(ActionEvent e) {
       String nome = autorView.getNomeAutor();
+      String sobrenome = autorView.getSobrenomeAutor();
+      List<Autor> autores;
 
-      List<Autor> autores = autorDao.findByName(nome);
+      if (nome == null && sobrenome == null) {
+        autores = autorDao.findAll();
+        if (autores == null) {
+          JOptionPane.showMessageDialog(null, "Erro ao listar");
+          return;
+        }
+        autorView.atualizaTabela(autores);
+        return;
+      }
+
+      // sql issue: procura apenas pelo nome
+      autores = autorDao.findByName(nome);
+      if (autores == null) {
+        JOptionPane.showMessageDialog(null, "Erro ao listar");
+        return;
+      }
       autorView.atualizaTabela(autores);
     }
   }
@@ -52,12 +87,25 @@ public class AutorController {
   class AcaoAtualizarAutor implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
-      Autor a = autorView.selecionaLinhaTabela();
-      System.out.println("AcaoAtualizarAutor " + a);
-      autorDao.update(a);
+      if (autorView.selecionaLinhaTabela() != null) {
+        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar com a edição?", "Excluir",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (i == JOptionPane.OK_OPTION) {
+          Autor a = autorView.selecionaLinhaTabela();
+          boolean editado = autorDao.update(a);
 
-      List<Autor> autores =  autorDao.findAll();
-      autorView.atualizaTabela(autores);
+          if (editado) {
+            autorView.limparCampos();
+            List<Autor> autores = autorDao.findAll();
+            autorView.atualizaTabela(autores);
+          } else {
+            JOptionPane.showMessageDialog(null, "Erro ao editar");
+          }
+        }
+        autorView.limparCampos();
+      } else {
+        JOptionPane.showMessageDialog(null, "Selecione uma linha da tabela para editar");
+      }
     }
   }
 
@@ -65,11 +113,25 @@ public class AutorController {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      Autor a = autorView.selecionaLinhaTabela();
-      autorDao.delete(a);
+      if (autorView.selecionaLinhaTabela() != null) {
+        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar com a exclusão?", "Excluir",
+                JOptionPane.OK_CANCEL_OPTION);
+        if (i == JOptionPane.OK_OPTION) {
+          Autor a = autorView.selecionaLinhaTabela();
+          boolean excluido = autorDao.delete(a);
 
-      List<Autor> autores = autorDao.findAll();
-      autorView.atualizaTabela(autores);
+          if (excluido) {
+            autorView.limparCampos();
+            List<Autor> autores = autorDao.findAll();
+            autorView.atualizaTabela(autores);
+          } else {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir");
+          }
+        }
+        autorView.limparCampos();
+      } else {
+        JOptionPane.showMessageDialog(null, "Selecione uma linha da tabela para excluir");
+      }
     }
   }
 }

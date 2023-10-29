@@ -31,7 +31,7 @@ public class AutorDao implements Dao<Autor> {
         return true;
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      return false;
     } finally {
       FabricaConexao.closeConnection(con, st);
     }
@@ -62,7 +62,7 @@ public class AutorDao implements Dao<Autor> {
       }
 
     } catch (SQLException e) {
-      JOptionPane.showMessageDialog(null, "Erro ao listar " + e.getMessage());
+      return null;
     } finally {
       FabricaConexao.closeConnection(con, stnt, rs);
     }
@@ -94,7 +94,7 @@ public class AutorDao implements Dao<Autor> {
       }
 
     } catch (SQLException e) {
-      JOptionPane.showMessageDialog(null, "Erro ao listar " + e.getMessage());
+      return null;
     } finally {
       FabricaConexao.closeConnection(con, stnt, rs);
     }
