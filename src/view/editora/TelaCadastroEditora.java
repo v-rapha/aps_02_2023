@@ -16,7 +16,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TelaCadastroEditora extends JFrame implements ViewEditora {
+public class TelaCadastroEditora extends JPanel implements ViewEditora {
   JLabel jLabelTituloP = new JLabel("Cadastro de Editora");
   JLabel jLabelNome = new JLabel("Nome:");
   JTextField jTextFieldNome = new JTextField();
@@ -32,9 +32,9 @@ public class TelaCadastroEditora extends JFrame implements ViewEditora {
   private List<Editora> listaEditoras = new ArrayList<>();
 
   private void initComponents() {
-    setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-    setTitle("Livraria - Cadastro de Editora");
-    setResizable(false);
+    //setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    //setTitle("Livraria - Cadastro de Editora");
+    //setResizable(false);
 
     jLabelTituloP.setFont(new Font("JetBrains Mono", Font.BOLD, 20));
 
@@ -116,12 +116,12 @@ public class TelaCadastroEditora extends JFrame implements ViewEditora {
     add(jButtonExcluir);
     add(jScroll);
 
-    pack();
+    //pack();
     setBounds(0, 0, 800, 500);
-    setTitle("Livraria - Cadastro de Editoras");
-    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    setLocationRelativeTo(null);
-    setResizable(false);
+    //setTitle("Livraria - Cadastro de Editoras");
+    //setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    //setLocationRelativeTo(null);
+    //setResizable(false);
     setVisible(true);
   }
 

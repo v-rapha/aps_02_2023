@@ -1,12 +1,11 @@
-import view.TelaPrincipal;
-import view.autor.TelaCadastroAutor;
-import view.editora.TelaCadastroEditora;
-import view.livro.TelaCadastroLivro;
+import controller.ViewPrincipalController;
+import view.tInicio.TelaPrincipal;
 
 public class Main {
   public static void main(String[] args) {
-    //new TelaPrincipal().setVisible(true);
-    new TelaCadastroAutor().init();
+    new TelaPrincipal().init();
+
+    //new TelaCadastroAutor().init();
     //new TelaCadastroEditora().init();
     //new TelaCadastroLivro().init();
   }

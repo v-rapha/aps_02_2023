@@ -13,7 +13,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TelaCadastroAutor extends JFrame implements ViewAutor {
+public class TelaCadastroAutor extends JPanel implements ViewAutor {
   JLabel jLabelTituloP = new JLabel("Cadastro de Autor");
   JLabel jLabelNome = new JLabel("Nome:");
   JLabel jLabelSobrenome = new JLabel("Sobrenome:");
@@ -30,7 +30,7 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
   private List<Autor> listaAutores = new ArrayList<>();
 
 //  public TelaCadastroAutor() {
-//    initComponents();
+//    init();
 //  }
 
   private void initComponents() {
@@ -122,12 +122,12 @@ public class TelaCadastroAutor extends JFrame implements ViewAutor {
     add(jButtonExcluir);
     add(jScroll);
 
-    pack();
+    //pack();
     setBounds(0, 0, 800, 500);
-    setTitle("Livraria - Cadastro de Autores");
-    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    setLocationRelativeTo(null);
-    setResizable(false);
+    //setTitle("Livraria - Cadastro de Autores");
+    //setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    //setLocationRelativeTo(null);
+    //setResizable(false);
     setVisible(true);
   }
 
