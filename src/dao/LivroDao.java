@@ -17,6 +17,7 @@ public class LivroDao implements Dao<Livro> {
   private static final String DELETE = "DELETE FROM Books WHERE isbn = ?";
   private final String LIST = "SELECT * FROM Books";
   private final String LIST_PUBLISHERS_NAME = "SELECT name from Publishers";
+  private final String LIST_AUTHORS_NAME = "SELECT name, fname from Authors";
   private final String ID_PUBLISHER = "SELECT publisher_id from Publishers WHERE name LIKE ?";
 //  private final String LIST = "SELECT Books.isbn, Books.title, Books.price, Publishers.name AS publisher " +
 //                              "FROM Books " +
@@ -29,14 +30,33 @@ public class LivroDao implements Dao<Livro> {
     PreparedStatement stnt = null;
 
     try {
-      stnt = con.prepareStatement(INSERT);
+      stnt = con.prepareStatement("INSERT INTO Books (title, isbn, price, publisher_id) VALUES (?, ?, ?, ?)");
       stnt.setString(1, livro.getTitulo());
       stnt.setString(2, livro.getIsbn());
       stnt.setDouble(3, livro.getPreco());
       stnt.setInt(4, livro.getIdEditora());
+      stnt.executeUpdate();
 
-      return stnt.executeUpdate() != 0;
+      ResultSet generatedKeys = stnt.getGeneratedKeys();
+      if (generatedKeys.next()) {
+        String generatedISBN = generatedKeys.getString(1);
+
+        int seq_no = 1;
+        for (int autorId : livro.getAutoresId()) {
+          String autorSql = "INSERT INTO BooksAuthors (isbn, author_id, seq_no) VALUES (?, ?, ?)";
+          PreparedStatement autorStmt = con.prepareStatement(autorSql);
+          autorStmt.setString(1, generatedISBN);
+          autorStmt.setInt(2, autorId);
+          autorStmt.setInt(3, seq_no);
+          autorStmt.executeUpdate();
+          seq_no++;
+        }
+      }
+
+      //return stnt.executeUpdate() != 0;
+      return true;
     } catch (SQLException e) {
+      e.printStackTrace();
       return false;
     } finally {
       FabricaConexao.closeConnection(con, stnt);
@@ -180,6 +200,32 @@ public class LivroDao implements Dao<Livro> {
     return editNames;
   }
 
+  public List<String> getAuthorsName() {
+    Connection con = FabricaConexao.getConnection();
+    PreparedStatement stnt = null;
+    ResultSet rs = null;
+
+    List<String> editNames = new ArrayList<>();
+
+    try {
+      stnt = con.prepareStatement(LIST_AUTHORS_NAME);
+      rs = stnt.executeQuery();
+
+      while (rs.next()) {
+        String name = rs.getString("name");
+        String fname = rs.getString("fname");
+        editNames.add(name + ", " + fname);
+      }
+
+    } catch (SQLException e) {
+      return null;
+    } finally {
+      FabricaConexao.closeConnection(con, stnt, rs);
+    }
+
+    return editNames;
+  }
+
   public int getPublisherId(String nomeEditora) {
     Connection con = FabricaConexao.getConnection();
     PreparedStatement stnt = null;
@@ -202,5 +248,30 @@ public class LivroDao implements Dao<Livro> {
     }
 
     return idPublisher;
+  }
+
+  public int getAutorId(String nome, String sobrenome) {
+    Connection con = FabricaConexao.getConnection();
+    PreparedStatement stnt = null;
+    ResultSet rs = null;
+
+    int autorId = 0;
+
+    try {
+      stnt = con.prepareStatement("SELECT author_id FROM Authors WHERE name = ? AND fname = ?");
+      stnt.setString(1, nome);
+      stnt.setString(2, sobrenome);
+      rs = stnt.executeQuery();
+
+      if (rs.next()) {
+        autorId = rs.getInt("author_id");
+      }
+    } catch (SQLException e) {
+      return 0;
+    } finally {
+      FabricaConexao.closeConnection(con, stnt, rs);
+    }
+
+    return autorId;
   }
 }

@@ -2,6 +2,9 @@ https://stackoverflow.com/questions/2102912/cant-make-jdbc-connection-to-mysql-u
 https://stackoverflow.com/questions/22371720/how-to-add-row-dynamically-in-jtable
 https://stackoverflow.com/questions/1990817/how-to-make-a-jtable-non-editable
 https://www.youtube.com/watch?v=V2_b8IsHSsk&t=1176s
+https://stackoverflow.com/questions/22621248/populating-jlist-from-inside-actionlistener-with-arraylist
+https://stackoverflow.com/questions/39732481/how-to-split-a-string-from-the-first-space-occurrence-only-java
+https://www.w3schools.com/sql/func_mysql_last_insert_id.asp
 
 ----------------Objeção----------------
 Para o cadastro definitivo de "Livros" é necessário primeiro a criação do "Autor" e depois o "Book".

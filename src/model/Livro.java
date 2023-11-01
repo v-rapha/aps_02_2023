@@ -1,18 +1,23 @@
 package model;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Livro {
   private String titulo;
   private String isbn;
   private double preco;
   private int idEditora;
+  private List<Integer> autoresId;
 
   public Livro() {}
 
-  public Livro(String aTitulo, String aIsbn, double aPreco, int aIdEditora) {
+  public Livro(String aTitulo, String aIsbn, double aPreco, int aIdEditora, List<Integer> aAutoresId) {
     this.titulo = aTitulo;
     this.isbn = aIsbn;
     this.preco = aPreco;
     this.idEditora = aIdEditora;
+    this.autoresId = aAutoresId;
   }
 
   public String getTitulo() {
@@ -47,6 +52,14 @@ public class Livro {
     this.idEditora = idEditora;
   }
 
+  public List<Integer> getAutoresId() {
+    return autoresId;
+  }
+
+  public void setAutoresId(List<Integer> autoresId) {
+    this.autoresId = autoresId;
+  }
+
   @Override
   public String toString() {
     return "Livro{" +
@@ -54,6 +67,7 @@ public class Livro {
             ", isbn='" + isbn + '\'' +
             ", preco=" + preco +
             ", idEditora=" + idEditora +
+            ", autoresId=" + autoresId +
             '}';
   }
 }

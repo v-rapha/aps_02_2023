@@ -31,7 +31,11 @@ public class TelaCadastroLivro extends JPanel implements ViewLivro {
   JButton jButtonBuscar = new JButton("Buscar");
   private JTable tabela;
   private JScrollPane jScroll;
+  private JScrollPane jScrollJL;
   private DefaultTableModel modelo;
+  private JList<String> jListAutores;
+  private DefaultListModel<String> listModel;
+  private List<String> listaAutor = new ArrayList<>();
   private List<Livro> listaLivros = new ArrayList<>();
   private JComboBox<String> jComboBoxEditoras;
   private List<String> listaEditora = new ArrayList<>();
@@ -110,9 +114,13 @@ public class TelaCadastroLivro extends JPanel implements ViewLivro {
     });
 
     jScroll = new JScrollPane(tabela);
+    listModel = new DefaultListModel<>();
+    //listModel.addElement("teste");
+    jListAutores = new JList<>(listModel);
+    jListAutores.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+    jScrollJL = new JScrollPane(jListAutores);
 
     jComboBoxEditoras = new JComboBox<>();
-    jComboBoxEditoras.addItem("Java R.R");
 
     setLayout(null);
     jLabelTituloP.setBounds(300, 15, 250, 20);
@@ -129,6 +137,7 @@ public class TelaCadastroLivro extends JPanel implements ViewLivro {
     jScroll.setBounds(120, 120, 550, 200);
     jLabelEditoras.setBounds(610, 50, 80, 20);
     jComboBoxEditoras.setBounds( 675, 50, 100, 20);
+    jScrollJL.setBounds(675, 90, 100, 200);
 
     add(jLabelTituloP);
     add(jLabelTitulo);
@@ -144,6 +153,7 @@ public class TelaCadastroLivro extends JPanel implements ViewLivro {
     add(jScroll);
     add(jComboBoxEditoras);
     add(jLabelEditoras);
+    add(jScrollJL);
 
     //pack();
     setBounds(0, 0, 800, 500);
@@ -168,6 +178,10 @@ public class TelaCadastroLivro extends JPanel implements ViewLivro {
   @Override
   public void mostraEditora(List<String> list) {
     this.atualizaComboBox(list);
+  }
+
+  public void mostrarAutor(List<String> list) {
+    this.atualizaJList(list);
   }
 
   public void atualizaTabela(List<Livro> lsLivros) {
@@ -197,6 +211,23 @@ public class TelaCadastroLivro extends JPanel implements ViewLivro {
     for (String s: listaEditora) {
       jComboBoxEditoras.addItem(s);
     }
+  }
+
+  public void atualizaJList(List<String> lsAutorNames) {
+    DefaultListModel<String> model = (DefaultListModel<String>) jListAutores.getModel();
+    listaAutor.clear();
+
+    listaAutor.addAll(lsAutorNames);
+
+//    if (jListAutores.getModel().getSize() > 0) {
+//      jListAutores.removeAll();
+//    }
+
+    for (String s: listaAutor) {
+    //System.out.println("lsAutor: " + s);
+      model.addElement(s);
+    }
+
   }
 
   public Livro selecionaLinhaTabela() {
@@ -280,6 +311,10 @@ public class TelaCadastroLivro extends JPanel implements ViewLivro {
     return editora;
   }
 
+  public String[] getNomesAutores() {
+    return jListAutores.getSelectedValuesList().toArray(new String[0]);
+  }
+
   @Override
   public void limparCampos() {
     jTextFieldTitulo.setText("");
@@ -291,4 +326,5 @@ public class TelaCadastroLivro extends JPanel implements ViewLivro {
   public void close() {
 
   }
+
 }

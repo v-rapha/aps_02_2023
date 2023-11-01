@@ -10,6 +10,8 @@ import view.livro.TelaCadastroLivro;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LivroController {
@@ -28,6 +30,7 @@ public class LivroController {
     livroView.addDeletarLivroListener(new LivroController.AcaoDeletarLivro());
     livroView.mostrarLivro(getLivro());
     livroView.mostraEditora(getEditora());
+    livroView.mostrarAutor(getAutor());
   }
 
   private List<Livro> getLivro() {
@@ -36,6 +39,10 @@ public class LivroController {
 
   private List<String> getEditora() {
     return livroDao.getPublishersName();
+  }
+
+  private List<String> getAutor() {
+    return livroDao.getAuthorsName();
   }
 
   class AcaoInserirLivro implements ActionListener {
@@ -62,7 +69,22 @@ public class LivroController {
       String editoraNome = livroView.getIdEditora();
       int idEditora = livroDao.getPublisherId(editoraNome);
 
-      boolean criado = livroDao.create(new Livro(titulo, isbn, preco, idEditora));
+      String[] nomesAutores = livroView.getNomesAutores();
+      List<Integer> idsAutores = new ArrayList<>();;
+
+      for (String nomeAutor: nomesAutores) {
+        String[] pdc;
+        pdc = nomeAutor.trim().split(", ", 2);
+        int autorId = livroDao.getAutorId(pdc[0], pdc[1]);
+        idsAutores.add(autorId);
+
+        //System.out.println("id do autor: " + autorId);
+      }
+
+      //System.out.println(idsAutores);
+
+
+      boolean criado = livroDao.create(new Livro(titulo, isbn, preco, idEditora, idsAutores));
 
       if (criado) {
         livroView.limparCampos();
