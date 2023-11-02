@@ -33,17 +33,21 @@ public class LivroDao implements Dao<Livro> {
     PreparedStatement stnt = null;
 
     try {
-      stnt = con.prepareStatement("INSERT INTO Books (title, isbn, price, publisher_id) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+      stnt = con.prepareStatement("INSERT INTO Books (title, isbn, price, publisher_id) VALUES (?, ?, ?, ?)");
       stnt.setString(1, livro.getTitulo());
       stnt.setString(2, livro.getIsbn());
       stnt.setDouble(3, livro.getPreco());
       stnt.setInt(4, livro.getIdEditora());
       stnt.executeUpdate();
 
-      ResultSet generatedKeys = stnt.getGeneratedKeys();
-      //System.out.println(generatedKeys.toString());
-      if (generatedKeys.next()) {
-        String generatedISBN = generatedKeys.getString(1);
+      String selectIsbn = "SELECT isbn FROM Books WHERE isbn = ?";
+      PreparedStatement selectStatement = con.prepareStatement(selectIsbn);
+      selectStatement.setString(1, livro.getIsbn());
+
+      ResultSet resultSet = selectStatement.executeQuery();
+
+      if (resultSet.next()) {
+        String generatedISBN = resultSet.getString("isbn");
 
         int seq_no = 1;
         for (int autorId : livro.getAutoresId()) {
