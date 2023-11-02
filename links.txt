@@ -5,7 +5,7 @@ https://www.youtube.com/watch?v=V2_b8IsHSsk&t=1176s
 https://stackoverflow.com/questions/22621248/populating-jlist-from-inside-actionlistener-with-arraylist
 https://stackoverflow.com/questions/39732481/how-to-split-a-string-from-the-first-space-occurrence-only-java
 https://www.w3schools.com/sql/func_mysql_last_insert_id.asp
-
+https://stackoverflow.com/questions/7162989/sqlexception-generated-keys-not-requested-mysql
 ----------------Objeção----------------
 Para o cadastro definitivo de "Livros" é necessário primeiro a criação do "Autor" e depois o "Book".
 Após, é necessário realizar a junção de "Autor" e "Book" utilizando a tabela "BooksAuthors"

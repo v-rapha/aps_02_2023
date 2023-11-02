@@ -4,10 +4,7 @@ import model.Editora;
 import model.Livro;
 
 import javax.swing.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +19,12 @@ public class LivroDao implements Dao<Livro> {
 //  private final String LIST = "SELECT Books.isbn, Books.title, Books.price, Publishers.name AS publisher " +
 //                              "FROM Books " +
 //                              "INNER JOIN Publishers ON Books.publisher_id = Publishers.publisher_id;";
+//  private final String LIST = """
+//        SELECT A.name, A.fname, B.isbn, B.title, B.price, P.name AS publisher_name
+//        FROM BooksAuthors BA
+//        INNER JOIN Authors A ON BA.author_id = A.author_id
+//        INNER JOIN Books B ON BA.isbn = B.isbn
+//        INNER JOIN Publishers P ON B.publisher_id = P.publisher_id;""";
   private final String LIKE = "SELECT * FROM Books WHERE title LIKE ?";
 
   @Override
@@ -30,7 +33,7 @@ public class LivroDao implements Dao<Livro> {
     PreparedStatement stnt = null;
 
     try {
-      stnt = con.prepareStatement("INSERT INTO Books (title, isbn, price, publisher_id) VALUES (?, ?, ?, ?)");
+      stnt = con.prepareStatement("INSERT INTO Books (title, isbn, price, publisher_id) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
       stnt.setString(1, livro.getTitulo());
       stnt.setString(2, livro.getIsbn());
       stnt.setDouble(3, livro.getPreco());
@@ -38,6 +41,7 @@ public class LivroDao implements Dao<Livro> {
       stnt.executeUpdate();
 
       ResultSet generatedKeys = stnt.getGeneratedKeys();
+      //System.out.println(generatedKeys.toString());
       if (generatedKeys.next()) {
         String generatedISBN = generatedKeys.getString(1);
 

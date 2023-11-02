@@ -156,7 +156,7 @@ public class TelaCadastroLivro extends JPanel implements ViewLivro {
     add(jScrollJL);
 
     //pack();
-    setBounds(0, 0, 800, 500);
+    setBounds(0, 0, 1020, 500);
     //setTitle("Livraria - Cadastro de Livros");
     //setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     //setLocationRelativeTo(null);

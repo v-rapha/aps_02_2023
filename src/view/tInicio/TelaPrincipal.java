@@ -42,7 +42,7 @@ public class TelaPrincipal extends JFrame implements ViewPrincipal {
 
     pack();
     setLayout(null);
-    setBounds(0, 0, 800, 500);
+    setBounds(0, 0, 1020, 500);
     setLocationRelativeTo(null);
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setTitle("Livraria");
