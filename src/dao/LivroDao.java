@@ -104,7 +104,7 @@ public class LivroDao implements Dao<Livro> {
   }
 
   @Override
-  public List<Livro> findByName(String s) {
+  public List<Livro> findByName(String s, String s2) {
     Connection con = FabricaConexao.getConnection();
     PreparedStatement stnt = null;
     ResultSet rs = null;

@@ -1,17 +1,17 @@
 package controller;
 
-import view.autor.TelaCadastroAutor;
-import view.editora.TelaCadastroEditora;
-import view.livro.TelaCadastroLivro;
-import view.tInicio.TelaPrincipal;
+import view.autor.ViewAutor;
+import view.editora.ViewEditora;
+import view.livro.ViewLivro;
+import view.tInicio.ViewPrincipal;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ViewPrincipalController {
-  private TelaPrincipal viewPrincipal;
+  private ViewPrincipal viewPrincipal;
 
-  public ViewPrincipalController(TelaPrincipal aViewPrincipal) {
+  public ViewPrincipalController(ViewPrincipal aViewPrincipal) {
     this.viewPrincipal = aViewPrincipal;
   }
 
@@ -26,7 +26,7 @@ public class ViewPrincipalController {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      TelaCadastroLivro tcl = new TelaCadastroLivro();
+      ViewLivro tcl = new ViewLivro();
       viewPrincipal.adicionarConteudo(tcl, "Cadastro de Livros");
       tcl.init();
     }
@@ -36,7 +36,7 @@ public class ViewPrincipalController {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      TelaCadastroAutor tca =  new TelaCadastroAutor();
+      ViewAutor tca =  new ViewAutor();
       viewPrincipal.adicionarConteudo(tca, "Cadastro Autores");
       tca.init();
     }
@@ -46,7 +46,7 @@ public class ViewPrincipalController {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      TelaCadastroEditora tce = new TelaCadastroEditora();
+      ViewEditora tce = new ViewEditora();
       viewPrincipal.adicionarConteudo(tce, "Cadastro Editoras");
       tce.init();
     }

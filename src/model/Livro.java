@@ -12,6 +12,12 @@ public class Livro {
 
   public Livro() {}
 
+  public Livro(String aTitulo, String aIsbn, double aPreco) {
+    this.titulo = aTitulo;
+    this.isbn = aIsbn;
+    this.preco = aPreco;
+  }
+
   public Livro(String aTitulo, String aIsbn, double aPreco, int aIdEditora, List<Integer> aAutoresId) {
     this.titulo = aTitulo;
     this.isbn = aIsbn;

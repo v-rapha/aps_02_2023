@@ -1,9 +1,8 @@
-import controller.ViewPrincipalController;
-import view.tInicio.TelaPrincipal;
+import view.tInicio.ViewPrincipal;
 
 public class Main {
   public static void main(String[] args) {
-    new TelaPrincipal().init();
+    new ViewPrincipal().init();
 
     //new TelaCadastroAutor().init();
     //new TelaCadastroEditora().init();

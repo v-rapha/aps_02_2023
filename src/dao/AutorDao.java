@@ -13,7 +13,7 @@ import java.util.List;
 public class AutorDao implements Dao<Autor> {
   private final String INSERT = "INSERT INTO Authors (name, fname) VALUES (?, ?)";
   private final String LIST = "SELECT * FROM Authors";
-  private final String LIKE = "SELECT * FROM Authors WHERE name LIKE ?";
+  private final String LIKE = "SELECT * FROM Authors WHERE name LIKE ? OR fname LIKE ?";
   private final String UPDATE = "UPDATE Authors SET name = ?, fname = ? WHERE author_id = ?";
   private static final String DELETE = "DELETE FROM Authors WHERE author_id = ?";
 
@@ -71,7 +71,7 @@ public class AutorDao implements Dao<Autor> {
   }
 
   @Override
-  public List<Autor> findByName(String s) {
+  public List<Autor> findByName(String s, String s2) {
     Connection con = FabricaConexao.getConnection();
     PreparedStatement stnt = null;
     ResultSet rs = null;
@@ -81,6 +81,7 @@ public class AutorDao implements Dao<Autor> {
     try {
       stnt = con.prepareStatement(LIKE);
       stnt.setString(1, s + "%");
+      stnt.setString(2, s2 + "%");
       rs = stnt.executeQuery();
 
       while (rs.next()) {

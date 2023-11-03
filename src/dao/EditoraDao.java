@@ -71,7 +71,7 @@ public class EditoraDao implements Dao<Editora> {
   }
 
   @Override
-  public List<Editora> findByName(String s) {
+  public List<Editora> findByName(String s, String s2) {
     Connection con = FabricaConexao.getConnection();
     PreparedStatement stnt = null;
     ResultSet rs = null;

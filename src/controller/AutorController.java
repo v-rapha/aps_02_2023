@@ -2,8 +2,7 @@ package controller;
 
 import dao.AutorDao;
 import model.Autor;
-import model.Editora;
-import view.autor.TelaCadastroAutor;
+import view.autor.ViewAutor;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,9 +11,9 @@ import java.util.List;
 
 public class AutorController {
   private AutorDao autorDao;
-  private TelaCadastroAutor autorView;
+  private ViewAutor autorView;
 
-  public AutorController(AutorDao aAutorModel, TelaCadastroAutor aAutorView) {
+  public AutorController(AutorDao aAutorModel, ViewAutor aAutorView) {
     this.autorDao = aAutorModel;
     this.autorView = aAutorView;
   }
@@ -62,7 +61,7 @@ public class AutorController {
     public void actionPerformed(ActionEvent e) {
       String nome = autorView.getNomeAutor();
       String sobrenome = autorView.getSobrenomeAutor();
-      List<Autor> autores;
+      List<Autor> autores = null;
 
       if (nome == null && sobrenome == null) {
         autores = autorDao.findAll();
@@ -72,10 +71,13 @@ public class AutorController {
         }
         autorView.atualizaTabela(autores);
         return;
+      } else if (nome != null) {
+        autores = autorDao.findByName(nome, null);
+      } else {
+        autores = autorDao.findByName(null, sobrenome);
       }
 
       // sql issue: procura apenas pelo nome
-      autores = autorDao.findByName(nome);
       if (autores == null) {
         JOptionPane.showMessageDialog(null, "Erro ao listar");
         return;

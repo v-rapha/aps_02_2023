@@ -2,8 +2,7 @@ package controller;
 
 import dao.EditoraDao;
 import model.Editora;
-import model.Livro;
-import view.editora.TelaCadastroEditora;
+import view.editora.ViewEditora;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,9 +11,9 @@ import java.util.List;
 
 public class EditoraController {
   private EditoraDao editoraDao;
-  private TelaCadastroEditora editoraView;
+  private ViewEditora editoraView;
 
-  public EditoraController(EditoraDao aEditoraDao, TelaCadastroEditora aEditoraView) {
+  public EditoraController(EditoraDao aEditoraDao, ViewEditora aEditoraView) {
     this.editoraDao = aEditoraDao;
     this.editoraView = aEditoraView;
   }
@@ -73,7 +72,7 @@ public class EditoraController {
         return;
       }
 
-      editoras = editoraDao.findByName(nome);
+      editoras = editoraDao.findByName(nome, null);
       if (editoras == null) {
         JOptionPane.showMessageDialog(null, "Erro ao listar");
         return;
