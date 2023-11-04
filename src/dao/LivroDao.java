@@ -154,6 +154,7 @@ public class LivroDao implements Dao<Livro> {
         return true;
       }
     } catch (SQLException e) {
+      e.printStackTrace();
       return false;
     } finally {
       FabricaConexao.closeConnection(con, stnt);
@@ -251,52 +252,52 @@ public class LivroDao implements Dao<Livro> {
     return editNames;
   }
 
-  public int getPublisherId(String nomeEditora) {
-    Connection con = FabricaConexao.getConnection();
-    PreparedStatement stnt = null;
-    ResultSet rs = null;
+//  public int getPublisherId(String nomeEditora) {
+//    Connection con = FabricaConexao.getConnection();
+//    PreparedStatement stnt = null;
+//    ResultSet rs = null;
+//
+//    int idPublisher = 0;
+//
+//    try {
+//      stnt = con.prepareStatement("SELECT publisher_id from Publishers WHERE name LIKE ?");
+//      stnt.setString(1, nomeEditora);
+//      rs = stnt.executeQuery();
+//
+//      if (rs.next()) {
+//        idPublisher = rs.getInt("publisher_id");
+//      }
+//    } catch (SQLException e) {
+//      return 0;
+//    } finally {
+//      FabricaConexao.closeConnection(con, stnt, rs);
+//    }
+//
+//    return idPublisher;
+//  }
 
-    int idPublisher = 0;
-
-    try {
-      stnt = con.prepareStatement(ID_PUBLISHER);
-      stnt.setString(1, nomeEditora);
-      rs = stnt.executeQuery();
-
-      if (rs.next()) {
-        idPublisher = rs.getInt("publisher_id");
-      }
-    } catch (SQLException e) {
-      return 0;
-    } finally {
-      FabricaConexao.closeConnection(con, stnt, rs);
-    }
-
-    return idPublisher;
-  }
-
-  public int getAutorId(String nome, String sobrenome) {
-    Connection con = FabricaConexao.getConnection();
-    PreparedStatement stnt = null;
-    ResultSet rs = null;
-
-    int autorId = 0;
-
-    try {
-      stnt = con.prepareStatement("SELECT author_id FROM Authors WHERE name = ? AND fname = ?");
-      stnt.setString(1, nome);
-      stnt.setString(2, sobrenome);
-      rs = stnt.executeQuery();
-
-      if (rs.next()) {
-        autorId = rs.getInt("author_id");
-      }
-    } catch (SQLException e) {
-      return 0;
-    } finally {
-      FabricaConexao.closeConnection(con, stnt, rs);
-    }
-
-    return autorId;
-  }
+//  public int getAutorId(String nome, String sobrenome) {
+//    Connection con = FabricaConexao.getConnection();
+//    PreparedStatement stnt = null;
+//    ResultSet rs = null;
+//
+//    int autorId = 0;
+//
+//    try {
+//      stnt = con.prepareStatement("SELECT author_id FROM Authors WHERE name = ? AND fname = ?");
+//      stnt.setString(1, nome);
+//      stnt.setString(2, sobrenome);
+//      rs = stnt.executeQuery();
+//
+//      if (rs.next()) {
+//        autorId = rs.getInt("author_id");
+//      }
+//    } catch (SQLException e) {
+//      return 0;
+//    } finally {
+//      FabricaConexao.closeConnection(con, stnt, rs);
+//    }
+//
+//    return autorId;
+//  }
 }

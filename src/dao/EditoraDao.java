@@ -117,6 +117,7 @@ public class EditoraDao implements Dao<Editora> {
         return true;
       }
     } catch (SQLException e) {
+      e.printStackTrace();
       return false;
     } finally {
       FabricaConexao.closeConnection(con, stnt);
@@ -168,5 +169,29 @@ public class EditoraDao implements Dao<Editora> {
     }
 
     return false;
+  }
+
+  public int getPublisherId(String nomeEditora) {
+    Connection con = FabricaConexao.getConnection();
+    PreparedStatement stnt = null;
+    ResultSet rs = null;
+
+    int idPublisher = 0;
+
+    try {
+      stnt = con.prepareStatement("SELECT publisher_id from Publishers WHERE name LIKE ?");
+      stnt.setString(1, nomeEditora);
+      rs = stnt.executeQuery();
+
+      if (rs.next()) {
+        idPublisher = rs.getInt("publisher_id");
+      }
+    } catch (SQLException e) {
+      return 0;
+    } finally {
+      FabricaConexao.closeConnection(con, stnt, rs);
+    }
+
+    return idPublisher;
   }
 }

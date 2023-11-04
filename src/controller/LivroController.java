@@ -1,5 +1,7 @@
 package controller;
 
+import dao.AutorDao;
+import dao.EditoraDao;
 import dao.LivrariaDao;
 import dao.LivroDao;
 import model.Livraria;
@@ -16,11 +18,15 @@ public class LivroController {
   private LivroDao livroDao;
   private ViewLivro livroView;
   private LivrariaDao livrariaDao;
+  private EditoraDao editoraDao;
+  private AutorDao autorDao;
 
   public LivroController(LivroDao aLivroDao, ViewLivro aLivroView) {
     this.livroDao = aLivroDao;
     this.livroView = aLivroView;
     this.livrariaDao = new LivrariaDao();
+    this.editoraDao = new EditoraDao();
+    this.autorDao = new AutorDao();
   }
 
   public void init() {
@@ -67,7 +73,7 @@ public class LivroController {
       }
 
       String editoraNome = livroView.getIdEditora();
-      int idEditora = livroDao.getPublisherId(editoraNome);
+      int idEditora = editoraDao.getPublisherId(editoraNome);
 
       String[] nomesAutores = livroView.getNomesAutores();
       List<Integer> idsAutores = new ArrayList<>();
@@ -79,7 +85,7 @@ public class LivroController {
       for (String nomeAutor: nomesAutores) {
         String[] pdc;
         pdc = nomeAutor.trim().split(", ", 2);
-        int autorId = livroDao.getAutorId(pdc[0], pdc[1]);
+        int autorId = autorDao.getAutorId(pdc[0], pdc[1]);
         idsAutores.add(autorId);
 
         //System.out.println("id do autor: " + autorId);

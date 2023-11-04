@@ -119,6 +119,7 @@ public class AutorDao implements Dao<Autor> {
         return true;
       }
     } catch (SQLException e) {
+      e.printStackTrace();
       return false;
     } finally {
       FabricaConexao.closeConnection(con, stnt);
@@ -165,5 +166,30 @@ public class AutorDao implements Dao<Autor> {
     }
 
     return false;
+  }
+
+  public int getAutorId(String nome, String sobrenome) {
+    Connection con = FabricaConexao.getConnection();
+    PreparedStatement stnt = null;
+    ResultSet rs = null;
+
+    int autorId = 0;
+
+    try {
+      stnt = con.prepareStatement("SELECT author_id FROM Authors WHERE name = ? AND fname = ?");
+      stnt.setString(1, nome);
+      stnt.setString(2, sobrenome);
+      rs = stnt.executeQuery();
+
+      if (rs.next()) {
+        autorId = rs.getInt("author_id");
+      }
+    } catch (SQLException e) {
+      return 0;
+    } finally {
+      FabricaConexao.closeConnection(con, stnt, rs);
+    }
+
+    return autorId;
   }
 }
