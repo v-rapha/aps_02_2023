@@ -14,24 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewAutor extends JPanel implements IViewAutor {
-  JLabel jLabelTituloP = new JLabel("Cadastro de Autor");
-  JLabel jLabelNome = new JLabel("Nome:");
-  JLabel jLabelSobrenome = new JLabel("Sobrenome:");
-  //JPanel jPanelCadastroAutor = new JPanel();
-  JTextField jTextFieldNome = new JTextField();
-  JTextField jTextFieldSobrenome = new JTextField();
-  JButton jButtonSalvar = new JButton("Salvar");
-  JButton jButtonAtualizar = new JButton("Atualizar");
-  JButton jButtonExcluir = new JButton("Excluir");
-  JButton jButtonBuscar = new JButton("Buscar");
+  private JLabel jLabelTituloP = new JLabel("Cadastro de Autor");
+  private JLabel jLabelNome = new JLabel("Nome:");
+  private JLabel jLabelSobrenome = new JLabel("Sobrenome:");
+  private JTextField jTextFieldNome = new JTextField();
+  private JTextField jTextFieldSobrenome = new JTextField();
+  private JButton jButtonSalvar = new JButton("Salvar");
+  private JButton jButtonAtualizar = new JButton("Atualizar");
+  private JButton jButtonExcluir = new JButton("Excluir");
+  private JButton jButtonBuscar = new JButton("Buscar");
   private JTable tabela;
   private JScrollPane jScroll;
-  private DefaultTableModel modelo;
   private List<Autor> listaAutores = new ArrayList<>();
-
-//  public TelaCadastroAutor() {
-//    init();
-//  }
 
   private void initComponents() {
     jLabelTituloP.setFont(new Font("JetBrains Mono", Font.BOLD, 20));
@@ -66,7 +60,6 @@ public class ViewAutor extends JPanel implements IViewAutor {
       @Override
       public void mouseClicked(MouseEvent e) {
         if (tabela.getSelectedRow() != -1) {
-          //txID.setText(tabela.getValueAt(tabela.getSelectedRow(), 0).toString());
           jTextFieldNome.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
           jTextFieldSobrenome.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
         } else {
@@ -83,33 +76,24 @@ public class ViewAutor extends JPanel implements IViewAutor {
 
       @Override
       public void mouseReleased(MouseEvent e) {
-        //txID.setText("");
         jTextFieldNome.setText("");
         jTextFieldSobrenome.setText("");
       }
     });
 
-    //tabela.setModel(modelo);
-
-    // Adicionando colunas e linhas a tabela
-    //modelo.addColumn("Id");
-    //modelo.addColumn("Nome");
-    //modelo.addColumn("Sobrenome");
-
-
     jScroll = new JScrollPane(tabela);
 
     setLayout(null);
-    jLabelTituloP.setBounds(300, 15, 250, 20);
-    jLabelNome.setBounds(100, 50, 80, 20);
-    jTextFieldNome.setBounds(150, 50, 150, 20);
-    jLabelSobrenome.setBounds(320, 50, 80, 20);
-    jTextFieldSobrenome.setBounds(395, 50, 100, 20);
-    jButtonSalvar.setBounds(180, 350, 100, 20);
-    jButtonBuscar.setBounds(300, 350, 100, 20);
-    jButtonAtualizar.setBounds(420, 350, 100, 20);
-    jButtonExcluir.setBounds(540, 350, 110, 20);
-    jScroll.setBounds(120, 120, 550, 200);
+    jLabelTituloP.setBounds(400, 15, 250, 20);
+    jLabelNome.setBounds(240, 50, 80, 20);
+    jTextFieldNome.setBounds(290, 50, 150, 20);
+    jLabelSobrenome.setBounds(490, 50, 80, 20);
+    jTextFieldSobrenome.setBounds(580, 50, 150, 20);
+    jButtonSalvar.setBounds(270, 350, 100, 20);
+    jButtonBuscar.setBounds(390, 350, 100, 20);
+    jButtonAtualizar.setBounds(510, 350, 100, 20);
+    jButtonExcluir.setBounds(630, 350, 110, 20);
+    jScroll.setBounds(230, 120, 550, 200);
 
     add(jLabelTituloP);
     add(jLabelNome);
@@ -122,12 +106,7 @@ public class ViewAutor extends JPanel implements IViewAutor {
     add(jButtonExcluir);
     add(jScroll);
 
-    //pack();
     setBounds(0, 0, 800, 500);
-    //setTitle("Livraria - Cadastro de Autores");
-    //setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    //setLocationRelativeTo(null);
-    //setResizable(false);
     setVisible(true);
   }
 
@@ -213,7 +192,5 @@ public class ViewAutor extends JPanel implements IViewAutor {
   }
 
   @Override
-  public void close() {
-
-  }
+  public void close() {}
 }

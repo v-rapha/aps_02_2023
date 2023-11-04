@@ -14,25 +14,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewEditora extends JPanel implements IViewEditora {
-  JLabel jLabelTituloP = new JLabel("Cadastro de Editora");
-  JLabel jLabelNome = new JLabel("Nome:");
-  JTextField jTextFieldNome = new JTextField();
-  JLabel jLabelUrl = new JLabel("Site:");
-  JTextField jTextFieldUrl = new JTextField();
-  JButton jButtonSalvar = new JButton("Salvar");
-  JButton jButtonAtualizar = new JButton("Atualizar");
-  JButton jButtonExcluir = new JButton("Excluir");
-  JButton jButtonBuscar = new JButton("Buscar");
+  private JLabel jLabelTituloP = new JLabel("Cadastro de Editora");
+  private JLabel jLabelNome = new JLabel("Nome:");
+  private JTextField jTextFieldNome = new JTextField();
+  private JLabel jLabelUrl = new JLabel("Site:");
+  private JTextField jTextFieldUrl = new JTextField();
+  private JButton jButtonSalvar = new JButton("Salvar");
+  private JButton jButtonAtualizar = new JButton("Atualizar");
+  private JButton jButtonExcluir = new JButton("Excluir");
+  private JButton jButtonBuscar = new JButton("Buscar");
   private JTable tabela;
   private JScrollPane jScroll;
-  private DefaultTableModel modelo;
   private List<Editora> listaEditoras = new ArrayList<>();
 
   private void initComponents() {
-    //setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-    //setTitle("Livraria - Cadastro de Editora");
-    //setResizable(false);
-
     jLabelTituloP.setFont(new Font("JetBrains Mono", Font.BOLD, 20));
 
     jLabelNome.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
@@ -65,7 +60,6 @@ public class ViewEditora extends JPanel implements IViewEditora {
       @Override
       public void mouseClicked(MouseEvent e) {
         if (tabela.getSelectedRow() != -1) {
-          //txID.setText(tabela.getValueAt(tabela.getSelectedRow(), 0).toString());
           jTextFieldNome.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
           jTextFieldUrl.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
         } else {
@@ -82,7 +76,6 @@ public class ViewEditora extends JPanel implements IViewEditora {
 
       @Override
       public void mouseReleased(MouseEvent e) {
-        //txID.setText("");
         jTextFieldNome.setText("");
         jTextFieldUrl.setText("");
       }
@@ -91,16 +84,16 @@ public class ViewEditora extends JPanel implements IViewEditora {
     jScroll = new JScrollPane(tabela);
 
     setLayout(null);
-    jLabelTituloP.setBounds(300, 15, 250, 20);
-    jLabelNome.setBounds(120, 50, 80, 20);
-    jTextFieldNome.setBounds(170, 50, 150, 20);
-    jLabelUrl.setBounds(350, 50, 80, 20);
-    jTextFieldUrl.setBounds(390, 50, 200, 20);
-    jButtonSalvar.setBounds(180, 350, 100, 20);
-    jButtonBuscar.setBounds(300, 350, 100, 20);
-    jButtonAtualizar.setBounds(420, 350, 100, 20);
-    jButtonExcluir.setBounds(540, 350, 110, 20);
-    jScroll.setBounds(120, 120, 550, 200);
+    jLabelTituloP.setBounds(400, 15, 250, 20);
+    jLabelNome.setBounds(240, 50, 80, 20);
+    jTextFieldNome.setBounds(290, 50, 150, 20);
+    jLabelUrl.setBounds(530, 50, 80, 20);
+    jTextFieldUrl.setBounds(570, 50, 200, 20);
+    jButtonSalvar.setBounds(270, 350, 100, 20);
+    jButtonBuscar.setBounds(390, 350, 100, 20);
+    jButtonAtualizar.setBounds(510, 350, 100, 20);
+    jButtonExcluir.setBounds(630, 350, 110, 20);
+    jScroll.setBounds(230, 120, 550, 200);
 
     add(jLabelTituloP);
     add(jLabelNome);
@@ -113,12 +106,7 @@ public class ViewEditora extends JPanel implements IViewEditora {
     add(jButtonExcluir);
     add(jScroll);
 
-    //pack();
     setBounds(0, 0, 800, 500);
-    //setTitle("Livraria - Cadastro de Editoras");
-    //setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    //setLocationRelativeTo(null);
-    //setResizable(false);
     setVisible(true);
   }
 
@@ -204,7 +192,5 @@ public class ViewEditora extends JPanel implements IViewEditora {
   }
 
   @Override
-  public void close() {
-
-  }
+  public void close() {}
 }

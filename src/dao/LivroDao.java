@@ -15,16 +15,7 @@ public class LivroDao implements Dao<Livro> {
   private final String LIST = "SELECT * FROM Books";
   private final String LIST_PUBLISHERS_NAME = "SELECT name from Publishers";
   private final String LIST_AUTHORS_NAME = "SELECT name, fname from Authors";
-  private final String ID_PUBLISHER = "SELECT publisher_id from Publishers WHERE name LIKE ?";
-//  private final String LIST = "SELECT Books.isbn, Books.title, Books.price, Publishers.name AS publisher " +
-//                              "FROM Books " +
-//                              "INNER JOIN Publishers ON Books.publisher_id = Publishers.publisher_id;";
-//  private final String LIST = """
-//        SELECT A.name, A.fname, B.isbn, B.title, B.price, P.name AS publisher_name
-//        FROM BooksAuthors BA
-//        INNER JOIN Authors A ON BA.author_id = A.author_id
-//        INNER JOIN Books B ON BA.isbn = B.isbn
-//        INNER JOIN Publishers P ON B.publisher_id = P.publisher_id;""";
+
   private final String LIKE = "SELECT * FROM Books WHERE title LIKE ?";
 
   @Override
@@ -61,7 +52,6 @@ public class LivroDao implements Dao<Livro> {
         }
       }
 
-      //return stnt.executeUpdate() != 0;
       return true;
     } catch (SQLException e) {
       e.printStackTrace();

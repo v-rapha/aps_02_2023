@@ -31,7 +31,6 @@ public class ViewLivro extends JPanel implements IViewLivro {
   private JTable tabela;
   private JScrollPane jScroll;
   private JScrollPane jScrollJL;
-  private DefaultTableModel modelo;
   private JList<String> jListAutores;
   private DefaultListModel<String> listModel;
   private List<String> listaAutor = new ArrayList<>();
@@ -40,10 +39,6 @@ public class ViewLivro extends JPanel implements IViewLivro {
   private List<String> listaEditora = new ArrayList<>();
 
   private void initComponents() {
-    //setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-    //setTitle("Livraria - Cadastro de Livros");
-    //setResizable(false);
-
     jLabelTituloP.setFont(new Font("JetBrains Mono", Font.BOLD, 20));
 
     jLabelTitulo.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
@@ -89,7 +84,6 @@ public class ViewLivro extends JPanel implements IViewLivro {
       @Override
       public void mouseClicked(MouseEvent e) {
         if (tabela.getSelectedRow() != -1) {
-          //txID.setText(tabela.getValueAt(tabela.getSelectedRow(), 0).toString());
           jTextFieldTitulo.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
           jTextFieldPreco.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
           jTextFieldIsbn.setText(tabela.getValueAt(tabela.getSelectedRow(), 3).toString());
@@ -107,7 +101,6 @@ public class ViewLivro extends JPanel implements IViewLivro {
 
       @Override
       public void mouseReleased(MouseEvent e) {
-        //txID.setText("");
         jTextFieldTitulo.setText("");
         jTextFieldIsbn.setText("");
         jTextFieldPreco.setText("");
@@ -116,7 +109,7 @@ public class ViewLivro extends JPanel implements IViewLivro {
 
     jScroll = new JScrollPane(tabela);
     listModel = new DefaultListModel<>();
-    //listModel.addElement("teste");
+
     jListAutores = new JList<>(listModel);
     jListAutores.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     jScrollJL = new JScrollPane(jListAutores);
@@ -158,12 +151,7 @@ public class ViewLivro extends JPanel implements IViewLivro {
     add(jLabelAutores);
     add(jScrollJL);
 
-    //pack();
     setBounds(0, 0, 1020, 500);
-    //setTitle("Livraria - Cadastro de Livros");
-    //setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    //setLocationRelativeTo(null);
-    //setResizable(false);
     setVisible(true);
   }
 
@@ -230,12 +218,7 @@ public class ViewLivro extends JPanel implements IViewLivro {
 
     listaAutor.addAll(lsAutorNames);
 
-//    if (jListAutores.getModel().getSize() > 0) {
-//      jListAutores.removeAll();
-//    }
-
     for (String s: listaAutor) {
-    //System.out.println("lsAutor: " + s);
       model.addElement(s);
     }
 
@@ -280,7 +263,6 @@ public class ViewLivro extends JPanel implements IViewLivro {
   public String getTituloLivro() {
     String titulo = this.jTextFieldTitulo.getText();
     if (titulo.trim().isEmpty()) {
-      //JOptionPane.showMessageDialog(null, "Preencha o titulo");
       return null;
     }
     return titulo;
@@ -290,7 +272,6 @@ public class ViewLivro extends JPanel implements IViewLivro {
   public String getIsbnLivro() {
     String isbn = this.jTextFieldIsbn.getText();
     if (isbn.trim().isEmpty()) {
-      //JOptionPane.showMessageDialog(null, "Preencha o ISBN");
       return null;
     }
     return isbn;
