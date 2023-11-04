@@ -131,13 +131,37 @@ public class EditoraDao implements Dao<Editora> {
     PreparedStatement stnt = null;
 
     try {
-      stnt = con.prepareStatement(DELETE);
+      // Verifica se há registros relacionados na tabela Books
+      String checkRelatedBooksQuery = "SELECT * FROM Books WHERE publisher_id = ?";
+      PreparedStatement checkBooksStnt = con.prepareStatement(checkRelatedBooksQuery);
+      checkBooksStnt.setInt(1, editora.getId());
+      ResultSet booksResult = checkBooksStnt.executeQuery();
+
+      if (booksResult.next()) {
+        // Existem livros relacionados a esta editora.
+
+        // Exclui os livros relacionados:
+        String isbn = booksResult.getString("isbn");
+        String deleteBooksAuthorsQuery = "DELETE FROM BooksAuthors WHERE isbn = ?";
+        PreparedStatement deleteBooksAuthorsStnt = con.prepareStatement(deleteBooksAuthorsQuery);
+        deleteBooksAuthorsStnt.setString(1, isbn);
+        deleteBooksAuthorsStnt.executeUpdate();
+
+        // Exclui o livro da tabela Books.
+        String deleteBooksQuery = "DELETE FROM Books WHERE isbn = ?";
+        PreparedStatement deleteBooksStnt = con.prepareStatement(deleteBooksQuery);
+        deleteBooksStnt.setString(1, isbn);
+        deleteBooksStnt.executeUpdate();
+      }
+
+      stnt = con.prepareStatement("DELETE FROM Publishers WHERE publisher_id = ?");
       stnt.setInt(1, editora.getId());
 
       if (stnt.executeUpdate() != 0) {
         return true;
       }
     } catch (SQLException e) {
+      e.printStackTrace();
       return false;
     } finally {
       FabricaConexao.closeConnection(con, stnt);

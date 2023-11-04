@@ -95,6 +95,7 @@ public class AutorDao implements Dao<Autor> {
       }
 
     } catch (SQLException e) {
+      e.printStackTrace();
       return null;
     } finally {
       FabricaConexao.closeConnection(con, stnt, rs);
@@ -132,13 +133,32 @@ public class AutorDao implements Dao<Autor> {
     PreparedStatement stnt = null;
 
     try {
-      stnt = con.prepareStatement(DELETE);
+      // Verifica se existem registros relacionados na tabela BooksAuthors.
+
+      // Verifica se há registros relacionados na tabela BooksAuthors
+      String checkRelatedBooksAuthorsQuery = "SELECT * FROM BooksAuthors WHERE author_id = ?";
+      PreparedStatement checkBooksAuthorsStnt = con.prepareStatement(checkRelatedBooksAuthorsQuery);
+      checkBooksAuthorsStnt.setInt(1, a.getId());
+      ResultSet booksAuthorsResult = checkBooksAuthorsStnt.executeQuery();
+
+      if (booksAuthorsResult.next()) {
+        // Existem registros relacionados na tabela BooksAuthors.
+
+        // Exclui registros relacionados na tabela BooksAuthors
+        String deleteBooksAuthorsQuery = "DELETE FROM BooksAuthors WHERE author_id = ?";
+        PreparedStatement deleteBooksAuthorsStnt = con.prepareStatement(deleteBooksAuthorsQuery);
+        deleteBooksAuthorsStnt.setInt(1, a.getId());
+        deleteBooksAuthorsStnt.executeUpdate();
+      }
+
+      stnt = con.prepareStatement("DELETE FROM Authors WHERE author_id = ?");
       stnt.setInt(1, a.getId());
 
       if (stnt.executeUpdate() != 0) {
         return true;
       }
     } catch (SQLException e) {
+      e.printStackTrace();
       return false;
     } finally {
       FabricaConexao.closeConnection(con, stnt);

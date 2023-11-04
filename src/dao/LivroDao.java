@@ -168,13 +168,30 @@ public class LivroDao implements Dao<Livro> {
     PreparedStatement stnt = null;
 
     try {
-      stnt = con.prepareStatement(DELETE);
+      // Verifica se há registros relacionados na tabela BooksAuthors
+      String checkRelatedAuthorsQuery = "SELECT * FROM BooksAuthors WHERE isbn = ?";
+      PreparedStatement checkAuthorsStnt = con.prepareStatement(checkRelatedAuthorsQuery);
+      checkAuthorsStnt.setString(1, livro.getIsbn());
+      ResultSet authorsResult = checkAuthorsStnt.executeQuery();
+
+      if (authorsResult.next()) {
+        // Existem registros relacionados na tabela BooksAuthors.
+
+        // Exclui registros relacionados na tabela BooksAuthors
+        String deleteAuthorsQuery = "DELETE FROM BooksAuthors WHERE isbn = ?";
+        PreparedStatement deleteAuthorsStnt = con.prepareStatement(deleteAuthorsQuery);
+        deleteAuthorsStnt.setString(1, livro.getIsbn());
+        deleteAuthorsStnt.executeUpdate();
+      }
+
+      stnt = con.prepareStatement("DELETE FROM Books WHERE isbn = ?");
       stnt.setString(1, livro.getIsbn());
 
       if (stnt.executeUpdate() != 0) {
         return true;
       }
     } catch (SQLException e) {
+      e.printStackTrace();
       return false;
     } finally {
       FabricaConexao.closeConnection(con, stnt);
