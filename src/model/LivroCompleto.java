@@ -1,13 +1,13 @@
 package model;
 
-public class Livraria {
+public class LivroCompleto {
   Livro livro;
   Autor autor;
   Editora editora;
 
-  public Livraria() {}
+  public LivroCompleto() {}
 
-  public Livraria(Livro aLivro, Autor aAutor, Editora aEditora) {
+  public LivroCompleto(Livro aLivro, Autor aAutor, Editora aEditora) {
     this.livro = aLivro;
     this.autor = aAutor;
     this.editora = aEditora;

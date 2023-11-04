@@ -1,9 +1,8 @@
 package dao;
 
-import jdk.jshell.spi.SPIResolutionException;
 import model.Autor;
 import model.Editora;
-import model.Livraria;
+import model.LivroCompleto;
 import model.Livro;
 
 import java.sql.Connection;
@@ -13,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LivrariaDao implements Dao<Livraria> {
+public class LivroCompletoDao implements Dao<LivroCompleto> {
   private final String SELECT_ALL = """
            SELECT A.name, A.fname, B.isbn, B.title, B.price, P.name AS publisher_name
            FROM BooksAuthors BA
@@ -29,18 +28,19 @@ public class LivrariaDao implements Dao<Livraria> {
            INNER JOIN Publishers P ON B.publisher_id = P.publisher_id
            WHERE B.title LIKE ?;
           """;
+
   @Override
-  public boolean create(Livraria entity) {
+  public boolean create(LivroCompleto entity) {
     return false;
   }
 
   @Override
-  public List<Livraria> findAll() {
+  public List<LivroCompleto> findAll() {
     Connection con = FabricaConexao.getConnection();
     PreparedStatement stnt = null;
     ResultSet rs = null;
 
-    List<Livraria> livrariaList = new ArrayList<>();
+    List<LivroCompleto> livroCompletoList = new ArrayList<>();
 
     try {
       stnt = con.prepareStatement(SELECT_ALL);
@@ -59,27 +59,28 @@ public class LivrariaDao implements Dao<Livraria> {
         Editora editora = new Editora();
         editora.setNome(publisher_name);
 
-        Livraria livraria = new Livraria(livro, autor, editora);
+        LivroCompleto livroCompleto = new LivroCompleto(livro, autor, editora);
 
-        livrariaList.add(livraria);
+        livroCompletoList.add(livroCompleto);
       }
 
     } catch (SQLException e) {
+      e.printStackTrace();
       return null;
     } finally {
       FabricaConexao.closeConnection(con, stnt, rs);
     }
 
-    return livrariaList;
+    return livroCompletoList;
   }
 
   @Override
-  public List<Livraria> findByName(String s, String s2) {
+  public List<LivroCompleto> findByName(String s, String s2) {
     Connection con = FabricaConexao.getConnection();
     PreparedStatement stnt = null;
     ResultSet rs = null;
 
-    List<Livraria> livros = new ArrayList<>();
+    List<LivroCompleto> livros = new ArrayList<>();
 
     try {
       stnt = con.prepareStatement(SELECT_BY_NAME);
@@ -99,12 +100,13 @@ public class LivrariaDao implements Dao<Livraria> {
         Editora editora = new Editora();
         editora.setNome(publisher_name);
 
-        Livraria livraria = new Livraria(livro, autor, editora);
+        LivroCompleto livroCompleto = new LivroCompleto(livro, autor, editora);
 
-        livros.add(livraria);
+        livros.add(livroCompleto);
       }
 
     } catch (SQLException e) {
+      e.printStackTrace();
       return null;
     } finally {
       FabricaConexao.closeConnection(con, stnt, rs);
@@ -114,12 +116,12 @@ public class LivrariaDao implements Dao<Livraria> {
   }
 
   @Override
-  public boolean update(Livraria entity) {
+  public boolean update(LivroCompleto entity) {
     return false;
   }
 
   @Override
-  public boolean delete(Livraria entity) {
+  public boolean delete(LivroCompleto entity) {
     return false;
   }
 }

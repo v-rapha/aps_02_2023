@@ -2,7 +2,7 @@ package view.livro;
 
 import controller.LivroController;
 import dao.LivroDao;
-import model.Livraria;
+import model.LivroCompleto;
 import model.Livro;
 
 import javax.swing.*;
@@ -34,7 +34,7 @@ public class ViewLivro extends JPanel implements IViewLivro {
   private JList<String> jListAutores;
   private DefaultListModel<String> listModel;
   private List<String> listaAutor = new ArrayList<>();
-  private List<Livraria> listaLivros = new ArrayList<>();
+  private List<LivroCompleto> listaLivros = new ArrayList<>();
   private JComboBox<String> jComboBoxEditoras;
   private List<String> listaEditora = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class ViewLivro extends JPanel implements IViewLivro {
 
     jButtonSalvar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
     jButtonAtualizar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
-    jButtonAtualizar.setEnabled(false);
+    //jButtonAtualizar.setEnabled(false);
     jButtonExcluir.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
     jButtonBuscar.setFont(new java.awt.Font("JetBrains Mono", Font.PLAIN, 12));
 
@@ -87,6 +87,7 @@ public class ViewLivro extends JPanel implements IViewLivro {
           jTextFieldTitulo.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
           jTextFieldPreco.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
           jTextFieldIsbn.setText(tabela.getValueAt(tabela.getSelectedRow(), 3).toString());
+          jComboBoxEditoras.setSelectedItem(tabela.getValueAt(tabela.getSelectedRow(), 4).toString());
         } else {
           JOptionPane.showMessageDialog(null, "Selecione uma linha");
         }
@@ -117,7 +118,7 @@ public class ViewLivro extends JPanel implements IViewLivro {
     jComboBoxEditoras = new JComboBox<>();
 
     setLayout(null);
-    jLabelTituloP.setBounds(300, 15, 250, 20);
+    jLabelTituloP.setBounds(400, 15, 250, 20);
     jLabelTitulo.setBounds(40, 50, 80, 20);
     jTextFieldTitulo.setBounds(95, 50, 210, 20);
     jLabelIsbn.setBounds(320, 50, 80, 20);
@@ -162,7 +163,7 @@ public class ViewLivro extends JPanel implements IViewLivro {
   }
 
   @Override
-  public void mostrarLivro(List<Livraria> list) {
+  public void mostrarLivro(List<LivroCompleto> list) {
     this.atualizaTabela(list);
   }
 
@@ -175,7 +176,7 @@ public class ViewLivro extends JPanel implements IViewLivro {
     this.atualizaJList(list);
   }
 
-  public void atualizaTabela(List<Livraria> lsLivros) {
+  public void atualizaTabela(List<LivroCompleto> lsLivros) {
     DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
     listaLivros.clear();
 
@@ -185,7 +186,7 @@ public class ViewLivro extends JPanel implements IViewLivro {
       modelo.removeRow(0);
     }
 
-    for (Livraria l : listaLivros) {
+    for (LivroCompleto l : listaLivros) {
       String nomeAutor = l.getAutor().getNome();
       String sobrenomeAutor = l.getAutor().getSobrenome();
       String tituloLivro = l.getLivro().getTitulo();

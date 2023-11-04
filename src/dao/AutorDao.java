@@ -12,7 +12,7 @@ import java.util.List;
 
 public class AutorDao implements Dao<Autor> {
   private final String INSERT = "INSERT INTO Authors (name, fname) VALUES (?, ?)";
-  private final String LIST = "SELECT * FROM Authors";
+  private final String LIST_ALL = "SELECT * FROM Authors";
   private final String LIKE = "SELECT * FROM Authors WHERE name LIKE ? OR fname LIKE ?";
   private final String UPDATE = "UPDATE Authors SET name = ?, fname = ? WHERE author_id = ?";
   private static final String DELETE = "DELETE FROM Authors WHERE author_id = ?";
@@ -31,6 +31,7 @@ public class AutorDao implements Dao<Autor> {
         return true;
       }
     } catch (SQLException e) {
+      e.printStackTrace();
       return false;
     } finally {
       FabricaConexao.closeConnection(con, st);
@@ -48,7 +49,7 @@ public class AutorDao implements Dao<Autor> {
     List<Autor> autores = new ArrayList<>();
 
     try {
-      stnt = con.prepareStatement(LIST);
+      stnt = con.prepareStatement(LIST_ALL);
       rs = stnt.executeQuery();
 
       while (rs.next()) {
@@ -62,6 +63,7 @@ public class AutorDao implements Dao<Autor> {
       }
 
     } catch (SQLException e) {
+      e.printStackTrace();
       return null;
     } finally {
       FabricaConexao.closeConnection(con, stnt, rs);
@@ -152,7 +154,7 @@ public class AutorDao implements Dao<Autor> {
         deleteBooksAuthorsStnt.executeUpdate();
       }
 
-      stnt = con.prepareStatement("DELETE FROM Authors WHERE author_id = ?");
+      stnt = con.prepareStatement(DELETE);
       stnt.setInt(1, a.getId());
 
       if (stnt.executeUpdate() != 0) {
@@ -168,12 +170,12 @@ public class AutorDao implements Dao<Autor> {
     return false;
   }
 
-  public int getAutorId(String nome, String sobrenome) {
+  public int getIdAutor(String nome, String sobrenome) {
     Connection con = FabricaConexao.getConnection();
     PreparedStatement stnt = null;
     ResultSet rs = null;
 
-    int autorId = 0;
+    int idAutor = 0;
 
     try {
       stnt = con.prepareStatement("SELECT author_id FROM Authors WHERE name = ? AND fname = ?");
@@ -182,14 +184,42 @@ public class AutorDao implements Dao<Autor> {
       rs = stnt.executeQuery();
 
       if (rs.next()) {
-        autorId = rs.getInt("author_id");
+        idAutor = rs.getInt("author_id");
       }
     } catch (SQLException e) {
+      e.printStackTrace();
       return 0;
     } finally {
       FabricaConexao.closeConnection(con, stnt, rs);
     }
 
-    return autorId;
+    return idAutor;
+  }
+
+  public List<String> getNomesAutores() {
+    Connection con = FabricaConexao.getConnection();
+    PreparedStatement stnt = null;
+    ResultSet rs = null;
+
+    List<String> nomesAutores = new ArrayList<>();
+
+    try {
+      stnt = con.prepareStatement("SELECT name, fname from Authors");
+      rs = stnt.executeQuery();
+
+      while (rs.next()) {
+        String name = rs.getString("name");
+        String fname = rs.getString("fname");
+        nomesAutores.add(name + ", " + fname);
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    } finally {
+      FabricaConexao.closeConnection(con, stnt, rs);
+    }
+
+    return nomesAutores;
   }
 }

@@ -1,14 +1,13 @@
 package view.livro;
 
-import model.Livraria;
-import model.Livro;
+import model.LivroCompleto;
 
 import java.awt.event.ActionListener;
 import java.util.List;
 
 public interface IViewLivro {
   void init();
-  void mostrarLivro(List<Livraria> list);
+  void mostrarLivro(List<LivroCompleto> list);
   void mostraEditora(List<String> list);
   void addBuscaLivroByNomeListener(ActionListener al);
   void addAdcionarLivroListener(ActionListener al);

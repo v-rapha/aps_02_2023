@@ -13,9 +13,6 @@ public class LivroDao implements Dao<Livro> {
   private final String UPDATE = "UPDATE Books SET title = ?, isbn = ?, price = ?, publisher_id = ? WHERE isbn = ?";
   private static final String DELETE = "DELETE FROM Books WHERE isbn = ?";
   private final String LIST = "SELECT * FROM Books";
-  private final String LIST_PUBLISHERS_NAME = "SELECT name from Publishers";
-  private final String LIST_AUTHORS_NAME = "SELECT name, fname from Authors";
-
   private final String LIKE = "SELECT * FROM Books WHERE title LIKE ?";
 
   @Override
@@ -61,6 +58,7 @@ public class LivroDao implements Dao<Livro> {
     }
   }
 
+  // Sem uso
   @Override
   public List<Livro> findAll() {
     Connection con = FabricaConexao.getConnection();
@@ -93,6 +91,7 @@ public class LivroDao implements Dao<Livro> {
     return livros;
   }
 
+  // Sem uso
   @Override
   public List<Livro> findByName(String s, String s2) {
     Connection con = FabricaConexao.getConnection();
@@ -132,16 +131,21 @@ public class LivroDao implements Dao<Livro> {
     PreparedStatement stnt = null;
 
     try {
-      System.out.println("DAO " + livro);
-      stnt = con.prepareStatement(UPDATE);
-      stnt.setString(1, livro.getTitulo());
-      stnt.setString(2, livro.getIsbn());
-      stnt.setDouble(3, livro.getPreco());
-      stnt.setInt(4, livro.getIdEditora());
-      stnt.setString(5, livro.getIsbn());
+      // Verifique se o publisher_id é válido
+      if (isPublisherIdValid(con, livro.getIdEditora())) {
+        stnt = con.prepareStatement("UPDATE Books SET title = ?, isbn = ?, price = ?, publisher_id = ? WHERE isbn = ?");
+        stnt.setString(1, livro.getTitulo());
+        stnt.setString(2, livro.getIsbn());
+        stnt.setDouble(3, livro.getPreco());
+        stnt.setInt(4, livro.getIdEditora());
+        stnt.setString(5, livro.getIsbn());
 
-      if (stnt.executeUpdate() != 0) {
-        return true;
+        if (stnt.executeUpdate() != 0) {
+          return true;
+        }
+      } else {
+        // O publisher_id não é válido
+        return false;
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -191,56 +195,17 @@ public class LivroDao implements Dao<Livro> {
     return false;
   }
 
-  public List<String> getPublishersName() {
-    Connection con = FabricaConexao.getConnection();
-    PreparedStatement stnt = null;
-    ResultSet rs = null;
-
-    List<String> editNames = new ArrayList<>();
-
-    try {
-      stnt = con.prepareStatement(LIST_PUBLISHERS_NAME);
-      rs = stnt.executeQuery();
-
-      while (rs.next()) {
-        String name = rs.getString("name");
-        editNames.add(name);
-      }
-
-    } catch (SQLException e) {
-      return null;
-    } finally {
-      FabricaConexao.closeConnection(con, stnt, rs);
-    }
-
-    return editNames;
+  private boolean isPublisherIdValid(Connection con, int publisherId) throws SQLException {
+    // Verifica se o publisher_id é válido consultando a tabela Publishers
+    PreparedStatement stnt = con.prepareStatement("SELECT publisher_id FROM Publishers WHERE publisher_id = ?");
+    stnt.setInt(1, publisherId);
+    ResultSet resultSet = stnt.executeQuery();
+    return resultSet.next(); // Se o resultado for vazio, o publisher_id não é válido
   }
 
-  public List<String> getAuthorsName() {
-    Connection con = FabricaConexao.getConnection();
-    PreparedStatement stnt = null;
-    ResultSet rs = null;
 
-    List<String> editNames = new ArrayList<>();
 
-    try {
-      stnt = con.prepareStatement(LIST_AUTHORS_NAME);
-      rs = stnt.executeQuery();
 
-      while (rs.next()) {
-        String name = rs.getString("name");
-        String fname = rs.getString("fname");
-        editNames.add(name + ", " + fname);
-      }
-
-    } catch (SQLException e) {
-      return null;
-    } finally {
-      FabricaConexao.closeConnection(con, stnt, rs);
-    }
-
-    return editNames;
-  }
 
 //  public int getPublisherId(String nomeEditora) {
 //    Connection con = FabricaConexao.getConnection();

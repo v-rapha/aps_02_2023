@@ -31,7 +31,8 @@ public class EditoraDao implements Dao<Editora> {
         return true;
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
+      return false;
     } finally {
       FabricaConexao.closeConnection(con, st);
     }
@@ -62,7 +63,8 @@ public class EditoraDao implements Dao<Editora> {
       }
 
     } catch (SQLException e) {
-      JOptionPane.showMessageDialog(null, "Erro ao listar " + e.getMessage());
+      e.printStackTrace();
+      return null;
     } finally {
       FabricaConexao.closeConnection(con, stnt, rs);
     }
@@ -94,7 +96,8 @@ public class EditoraDao implements Dao<Editora> {
       }
 
     } catch (SQLException e) {
-      JOptionPane.showMessageDialog(null, "Erro ao listar " + e.getMessage());
+      e.printStackTrace();
+      return null;
     } finally {
       FabricaConexao.closeConnection(con, stnt, rs);
     }
@@ -155,7 +158,7 @@ public class EditoraDao implements Dao<Editora> {
         deleteBooksStnt.executeUpdate();
       }
 
-      stnt = con.prepareStatement("DELETE FROM Publishers WHERE publisher_id = ?");
+      stnt = con.prepareStatement(DELETE);
       stnt.setInt(1, editora.getId());
 
       if (stnt.executeUpdate() != 0) {
@@ -171,12 +174,12 @@ public class EditoraDao implements Dao<Editora> {
     return false;
   }
 
-  public int getPublisherId(String nomeEditora) {
+  public int getIdEditora(String nomeEditora) {
     Connection con = FabricaConexao.getConnection();
     PreparedStatement stnt = null;
     ResultSet rs = null;
 
-    int idPublisher = 0;
+    int idEditora = 0;
 
     try {
       stnt = con.prepareStatement("SELECT publisher_id from Publishers WHERE name LIKE ?");
@@ -184,14 +187,41 @@ public class EditoraDao implements Dao<Editora> {
       rs = stnt.executeQuery();
 
       if (rs.next()) {
-        idPublisher = rs.getInt("publisher_id");
+        idEditora = rs.getInt("publisher_id");
       }
     } catch (SQLException e) {
+      e.printStackTrace();
       return 0;
     } finally {
       FabricaConexao.closeConnection(con, stnt, rs);
     }
 
-    return idPublisher;
+    return idEditora;
+  }
+
+  public List<String> getNomesEditoras() {
+    Connection con = FabricaConexao.getConnection();
+    PreparedStatement stnt = null;
+    ResultSet rs = null;
+
+    List<String> nomesEditoras = new ArrayList<>();
+
+    try {
+      stnt = con.prepareStatement("SELECT name from Publishers");
+      rs = stnt.executeQuery();
+
+      while (rs.next()) {
+        String name = rs.getString("name");
+        nomesEditoras.add(name);
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    } finally {
+      FabricaConexao.closeConnection(con, stnt, rs);
+    }
+
+    return nomesEditoras;
   }
 }
