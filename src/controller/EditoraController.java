@@ -37,10 +37,10 @@ public class EditoraController {
       String url = editoraView.getUrlEditora();
 
       if (nome == null) {
-        JOptionPane.showMessageDialog(null, "Preencha o campo nome");
+        JOptionPane.showMessageDialog(null, "Insira o nome da Editora");
         return;
       } else if (url == null) {
-        JOptionPane.showMessageDialog(null, "Preencha o campo Url");
+        JOptionPane.showMessageDialog(null, "Insira o site da Editora");
         return;
       }
 
@@ -51,7 +51,7 @@ public class EditoraController {
         List<Editora> editoras = editoraDao.findAll();
         editoraView.atualizaTabela(editoras);
       } else {
-        JOptionPane.showMessageDialog(null, "Erro ao inserir a editora");
+        JOptionPane.showMessageDialog(null, "Erro na inserção da editora");
       }
     }
   }
@@ -65,7 +65,7 @@ public class EditoraController {
       if (nome == null) {
         editoras = editoraDao.findAll();
         if (editoras == null) {
-          JOptionPane.showMessageDialog(null, "Erro ao listar");
+          JOptionPane.showMessageDialog(null, "Erro ao listar Editoras");
           return;
         }
         editoraView.atualizaTabela(editoras);
@@ -74,7 +74,7 @@ public class EditoraController {
 
       editoras = editoraDao.findByName(nome, null);
       if (editoras == null) {
-        JOptionPane.showMessageDialog(null, "Erro ao listar");
+        JOptionPane.showMessageDialog(null, "Erro ao listar Editoras");
         return;
       }
       editoraView.atualizaTabela(editoras);
@@ -85,7 +85,7 @@ public class EditoraController {
     @Override
     public void actionPerformed(ActionEvent e) {
       if (editoraView.selecionaLinhaTabela() != null) {
-        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar com a edição?", "Excluir",
+        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar com a edição da Editora?", "Editar",
                 JOptionPane.OK_CANCEL_OPTION);
         if (i == JOptionPane.OK_OPTION) {
           Editora editora = editoraView.selecionaLinhaTabela();
@@ -96,12 +96,12 @@ public class EditoraController {
             List<Editora> editoras = editoraDao.findAll();
             editoraView.atualizaTabela(editoras);
           } else {
-            JOptionPane.showMessageDialog(null, "Erro ao editar");
+            JOptionPane.showMessageDialog(null, "Erro na edição da Editora");
           }
         }
         editoraView.limparCampos();
       } else {
-        JOptionPane.showMessageDialog(null, "Selecione uma linha da tabela para editar");
+        JOptionPane.showMessageDialog(null, "Por favor, selecione uma linha da tabela para editar");
       }
     }
   }
@@ -111,7 +111,7 @@ public class EditoraController {
     @Override
     public void actionPerformed(ActionEvent e) {
       if (editoraView.selecionaLinhaTabela() != null) {
-        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar com a exclusão?", "Excluir",
+        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar com a exclusão? Isso excluirá os livros desta Editora", "Excluir",
                 JOptionPane.OK_CANCEL_OPTION);
         if (i == JOptionPane.OK_OPTION) {
           Editora editora = editoraView.selecionaLinhaTabela();
@@ -122,12 +122,12 @@ public class EditoraController {
             List<Editora> editoras = editoraDao.findAll();
             editoraView.atualizaTabela(editoras);
           } else {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir");
+            JOptionPane.showMessageDialog(null, "Erro na exclusão da Editora");
           }
         }
         editoraView.limparCampos();
       } else {
-        JOptionPane.showMessageDialog(null, "Selecione uma linha da tabela para excluir");
+        JOptionPane.showMessageDialog(null, "Por favor, selecione uma linha da tabela para excluir");
       }
     }
   }

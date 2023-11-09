@@ -43,15 +43,15 @@ public class ViewLivro extends JPanel implements IViewLivro {
 
     jLabelTitulo.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
     jTextFieldTitulo.setFont(new Font("JetBrains Mono", Font.PLAIN, 11));
-    jTextFieldTitulo.setToolTipText("Insira o nome da editora");
+    jTextFieldTitulo.setToolTipText("Insira o titulo do livro");
 
     jLabelIsbn.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
     jTextFieldIsbn.setFont(new Font("JetBrains Mono", Font.PLAIN, 11));
-    jTextFieldIsbn.setToolTipText("Insira o site da editora");
+    jTextFieldIsbn.setToolTipText("Insira o ISBN do livro");
 
     jLabelPreco.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
     jTextFieldPreco.setFont(new Font("JetBrains Mono", Font.PLAIN, 11));
-    jTextFieldPreco.setToolTipText("Insira o site da editora");
+    jTextFieldPreco.setToolTipText("Insira o preço do livro");
 
     jLabelEditoras.setFont(new Font("JetBrains Mono", Font.PLAIN, 12));
 

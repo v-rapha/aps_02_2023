@@ -37,10 +37,10 @@ public class AutorController {
       String sobrenome = autorView.getSobrenomeAutor();
 
       if (nome == null) {
-        JOptionPane.showMessageDialog(null, "Preencha o campo nome");
+        JOptionPane.showMessageDialog(null, "Insira o nome do Autor");
         return;
       } else if (sobrenome == null) {
-        JOptionPane.showMessageDialog(null, "Preencha o campo sobrenome");
+        JOptionPane.showMessageDialog(null, "Insira o sobrenome do Autor");
         return;
       }
 
@@ -51,7 +51,7 @@ public class AutorController {
         List<Autor> autores = autorDao.findAll();
         autorView.atualizaTabela(autores);
       } else {
-        JOptionPane.showMessageDialog(null, "Erro ao inserir o autor");
+        JOptionPane.showMessageDialog(null, "Erro na inserção do Autor");
       }
     }
   }
@@ -66,7 +66,7 @@ public class AutorController {
       if (nome == null && sobrenome == null) {
         autores = autorDao.findAll();
         if (autores == null) {
-          JOptionPane.showMessageDialog(null, "Erro ao listar");
+          JOptionPane.showMessageDialog(null, "Erro ao listar Autores");
           return;
         }
         autorView.atualizaTabela(autores);
@@ -79,7 +79,7 @@ public class AutorController {
 
       // sql issue: procura apenas pelo nome
       if (autores == null) {
-        JOptionPane.showMessageDialog(null, "Erro ao listar");
+        JOptionPane.showMessageDialog(null, "Erro ao listar Autores");
         return;
       }
       autorView.atualizaTabela(autores);
@@ -90,7 +90,7 @@ public class AutorController {
     @Override
     public void actionPerformed(ActionEvent e) {
       if (autorView.selecionaLinhaTabela() != null) {
-        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar com a edição?", "Excluir",
+        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar com a edição do Autor?", "Editar",
                 JOptionPane.OK_CANCEL_OPTION);
         if (i == JOptionPane.OK_OPTION) {
           Autor a = autorView.selecionaLinhaTabela();
@@ -101,12 +101,12 @@ public class AutorController {
             List<Autor> autores = autorDao.findAll();
             autorView.atualizaTabela(autores);
           } else {
-            JOptionPane.showMessageDialog(null, "Erro ao editar");
+            JOptionPane.showMessageDialog(null, "Erro ao editar Autor");
           }
         }
         autorView.limparCampos();
       } else {
-        JOptionPane.showMessageDialog(null, "Selecione uma linha da tabela para editar");
+        JOptionPane.showMessageDialog(null, "Por favor, selecione uma linha da tabela para editar");
       }
     }
   }
@@ -116,7 +116,7 @@ public class AutorController {
     @Override
     public void actionPerformed(ActionEvent e) {
       if (autorView.selecionaLinhaTabela() != null) {
-        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar com a exclusão?", "Excluir",
+        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar com a exclusão? Isso excluirá os livros deste autor", "Excluir",
                 JOptionPane.OK_CANCEL_OPTION);
         if (i == JOptionPane.OK_OPTION) {
           Autor a = autorView.selecionaLinhaTabela();
@@ -127,12 +127,12 @@ public class AutorController {
             List<Autor> autores = autorDao.findAll();
             autorView.atualizaTabela(autores);
           } else {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir");
+            JOptionPane.showMessageDialog(null, "Erro na exclusão do Autor");
           }
         }
         autorView.limparCampos();
       } else {
-        JOptionPane.showMessageDialog(null, "Selecione uma linha da tabela para excluir");
+        JOptionPane.showMessageDialog(null, "Por favor, selecione uma linha da tabela para excluir!");
       }
     }
   }

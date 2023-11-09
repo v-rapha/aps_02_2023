@@ -59,16 +59,16 @@ public class LivroController {
       double preco = livroView.getPrecoLivro();
 
       if (titulo == null) {
-        JOptionPane.showMessageDialog(null, "Preencha o titulo");
+        JOptionPane.showMessageDialog(null, "Insira o titulo do Livro");
         return;
       } else if (isbn == null) {
-        JOptionPane.showMessageDialog(null, "Preencha o ISBN");
+        JOptionPane.showMessageDialog(null, "Insira o ISBN do Livro");
         return;
       } else if (preco == -1) {
-        JOptionPane.showMessageDialog(null, "Insira um preço maior ou igual a zero");
+        JOptionPane.showMessageDialog(null, "O Livro não pode ser cadastrado com um preço menor ou igual a zero");
         return;
       } else if (preco == -2) {
-        JOptionPane.showMessageDialog(null, "Insira um preço válido");
+        JOptionPane.showMessageDialog(null, "Insira um preço válido para cadastrar o Livro");
         return;
       }
 
@@ -79,7 +79,7 @@ public class LivroController {
       List<Integer> idsAutores = new ArrayList<>();
 
       if (nomesAutores.length == 0) {
-        JOptionPane.showMessageDialog(null, "Selecione um autor");
+        JOptionPane.showMessageDialog(null, "Por favor, selecione um autor");
         return;
       }
       for (String nomeAutor : nomesAutores) {
@@ -99,7 +99,7 @@ public class LivroController {
       if (criado) {
         atualizaView();
       } else {
-        JOptionPane.showMessageDialog(null, "Erro ao inserir o livro");
+        JOptionPane.showMessageDialog(null, "Erro na inserção do livro");
       }
     }
   }
@@ -111,7 +111,7 @@ public class LivroController {
       if (titulo == null) {
         List<LivroCompleto> livros = livroCompletoDao.findAll();
         if (livros == null) {
-          JOptionPane.showMessageDialog(null, "Erro ao listar");
+          JOptionPane.showMessageDialog(null, "Erro ao listar Livros");
           return;
         }
 
@@ -121,7 +121,7 @@ public class LivroController {
 
       List<LivroCompleto> livros = livroCompletoDao.findByName(titulo, null);
       if (livros == null) {
-        JOptionPane.showMessageDialog(null, "Erro ao listar");
+        JOptionPane.showMessageDialog(null, "Erro ao listar Livros");
         return;
       }
       livroView.atualizaTabela(livros);
@@ -132,7 +132,7 @@ public class LivroController {
     @Override
     public void actionPerformed(ActionEvent e) {
       if (livroView.selecionaLinhaTabela() != null) {
-        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar?", "Excluir",
+        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar com a edição dos dados?", "Editar",
                 JOptionPane.OK_CANCEL_OPTION);
         if (i == JOptionPane.OK_OPTION) {
           Livro livro = livroView.selecionaLinhaTabela();
@@ -146,12 +146,12 @@ public class LivroController {
           if (editado) {
            atualizaView();
           } else {
-            JOptionPane.showMessageDialog(null, "Erro ao editar");
+            JOptionPane.showMessageDialog(null, "Erro na edição do Livro");
           }
         }
         livroView.limparCampos();
       } else {
-        JOptionPane.showMessageDialog(null, "Selecione uma linha da tabela para editar");
+        JOptionPane.showMessageDialog(null, "Por favor, selecione uma linha da tabela para editar");
       }
     }
   }
@@ -162,7 +162,7 @@ public class LivroController {
     @Override
     public void actionPerformed(ActionEvent e) {
       if (livroView.selecionaLinhaTabela() != null) {
-        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar?", "Excluir",
+        int i = JOptionPane.showConfirmDialog(null, "Deseja continuar com a exclusão do Livro selecionado?", "Excluir",
                 JOptionPane.OK_CANCEL_OPTION);
         if (i == JOptionPane.OK_OPTION) {
           Livro livro = livroView.selecionaLinhaTabela();
@@ -171,12 +171,12 @@ public class LivroController {
           if (excluido) {
             atualizaView();
           } else {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir");
+            JOptionPane.showMessageDialog(null, "Erro na exclusão do Livro");
           }
         }
         livroView.limparCampos();
       } else {
-        JOptionPane.showMessageDialog(null, "Selecione uma linha da tabela para excluir");
+        JOptionPane.showMessageDialog(null, "Por favor, selecione uma linha da tabela para excluir");
       }
     }
   }
